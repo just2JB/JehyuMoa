@@ -256,7 +256,7 @@ function openState(hours, now = new Date()) {
 }
 
 /* ---------- 한글 검색 ----------
-   화면에 보이는 글자(가게 이름 · 혜택 · 조건)와 업종에서만 찾아요.
+   화면에 보이는 글자(가게 이름 · 혜택 · 조건)에서만 찾아요. 찾은 글자는 항상 강조돼 보여요.
    앞 글자들은 정확히 같아야 하고, 마지막 글자만 '치는 도중' 상태를 봐 줘요.
    - 이사 → 이삭 : 마지막 '사'(ㅅㅏ)가 '삭'(ㅅㅏㄱ)의 앞부분
    - 잇   → 이삭 : 받침 ㅅ이 다음 글자 첫소리로 넘어가기 직전 (ㅇㅣ + ㅅ)
@@ -368,12 +368,13 @@ function Hl({ text, q }) {
   return out;
 }
 
-/** 0: 안 맞음 · 1: 혜택·조건·업종이 맞음 · 2: 이름이 맞음 · 3: 이름이 이렇게 시작 */
+/** 0: 안 맞음 · 1: 혜택·조건이 맞음 · 2: 이름이 맞음 · 3: 이름이 이렇게 시작 */
 function searchRank(store, q) {
   if (!q) return 1;
   const nameRanges = matchRanges(store.name, q);
   if (nameRanges.length) return nameRanges[0][0] === 0 ? 3 : 2;
-  const rest = [store.category, ...store.benefits.flatMap((b) => [b.title, b.tag || ""])];
+  // 업종은 줄에 글자로 보이지 않으니 검색하지 않아요 (업종은 위 칩으로 골라요)
+  const rest = store.benefits.flatMap((b) => [b.title, b.tag || ""]);
   return rest.some((t) => matchRanges(t, q).length) ? 1 : 0;
 }
 
