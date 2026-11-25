@@ -253,90 +253,96 @@ function openState(hours, now = new Date()) {
 }
 
 /* ---------- 한글 검색 ----------
-   '이삭토스트'를 치는 도중의 '이사', '잇', 'ㅇ'도 찾아지도록 글자를 자모로 풀어서 비교해요.
-   - 잇(ㅇㅣㅅ) ⊂ 이삭(ㅇㅣㅅㅏㄱ)  → 받침이 다음 글자 첫소리로 넘어가는 순간도 찾음
-   - 겹받침·겹모음도 풀어서 비교 (닭 → ㄷㅏㄹㄱ, 과 → ㄱㅗㅏ)
+   화면에 보이는 글자(가게 이름 · 혜택 · 조건)와 업종에서만 찾아요.
+   앞 글자들은 정확히 같아야 하고, 마지막 글자만 '치는 도중' 상태를 봐 줘요.
+   - 이사 → 이삭 : 마지막 '사'(ㅅㅏ)가 '삭'(ㅅㅏㄱ)의 앞부분
+   - 잇   → 이삭 : 받침 ㅅ이 다음 글자 첫소리로 넘어가기 직전 (ㅇㅣ + ㅅ)
+   - 닭   → 달갈 : 겹받침도 같은 원리 (ㄷㅏㄹ + ㄱ)
+   - 이삭ㅌ → 이삭토 : 끝에 자음·모음만 쳐 둔 상태
    - 자음만 치면 초성 검색 (ㅇㅅㅌㅅㅌ → 이삭토스트)
    - 띄어쓰기 · 대소문자 무시 */
 const CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
 const JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
 const JONG = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
 const SPLIT = {
-  ㄳ: "ㄱㅅ", ㄵ: "ㄴㅈ", ㄶ: "ㄴㅎ", ㄺ: "ㄹㄱ", ㄻ: "ㄹㅁ", ㄼ: "ㄹㅂ", ㄽ: "ㄹㅅ", ㄾ: "ㄹㅌ", ㄿ: "ㄹㅍ", ㅀ: "ㄹㅎ", ㅄ: "ㅂㅅ",
-  ㅘ: "ㅗㅏ", ㅙ: "ㅗㅐ", ㅚ: "ㅗㅣ", ㅝ: "ㅜㅓ", ㅞ: "ㅜㅔ", ㅟ: "ㅜㅣ", ㅢ: "ㅡㅣ",
+  "ㄳ": "ㄱㅅ", "ㄵ": "ㄴㅈ", "ㄶ": "ㄴㅎ", "ㄺ": "ㄹㄱ", "ㄻ": "ㄹㅁ", "ㄼ": "ㄹㅂ", "ㄽ": "ㄹㅅ", "ㄾ": "ㄹㅌ", "ㄿ": "ㄹㅍ", "ㅀ": "ㄹㅎ", "ㅄ": "ㅂㅅ",
+  "ㅘ": "ㅗㅏ", "ㅙ": "ㅗㅐ", "ㅚ": "ㅗㅣ", "ㅝ": "ㅜㅓ", "ㅞ": "ㅜㅔ", "ㅟ": "ㅜㅣ", "ㅢ": "ㅡㅣ",
 };
 const HANGUL_START = 0xac00;
 const HANGUL_END = 0xd7a3;
 
-function normalize(text) {
-  return text.toLowerCase().replace(/\s+/g, "");
+function isSyllable(ch) {
+  const code = ch.charCodeAt(0);
+  return code >= HANGUL_START && code <= HANGUL_END;
 }
 
-function toJamo(text) {
-  let out = "";
-  for (const ch of normalize(text)) {
-    const code = ch.charCodeAt(0);
-    if (code >= HANGUL_START && code <= HANGUL_END) {
-      const i = code - HANGUL_START;
-      const jong = JONG[i % 28];
-      const jung = JUNG[Math.floor(i / 28) % 21];
-      out += CHO[Math.floor(i / 588)] + (SPLIT[jung] || jung) + (SPLIT[jong] || jong);
-    } else {
-      out += SPLIT[ch] || ch;
-    }
-  }
-  return out;
+/** 한 글자를 자모로 (겹받침 · 겹모음은 풀어서) */
+function charJamo(ch) {
+  if (!isSyllable(ch)) return SPLIT[ch] || ch;
+  const i = ch.charCodeAt(0) - HANGUL_START;
+  const jung = JUNG[Math.floor(i / 28) % 21];
+  const jong = JONG[i % 28];
+  return CHO[Math.floor(i / 588)] + (SPLIT[jung] || jung) + (SPLIT[jong] || jong);
 }
 
-function toChosung(text) {
-  let out = "";
-  for (const ch of normalize(text)) {
-    const code = ch.charCodeAt(0);
-    out += code >= HANGUL_START && code <= HANGUL_END ? CHO[Math.floor((code - HANGUL_START) / 588)] : ch;
-  }
+function charCho(ch) {
+  return isSyllable(ch) ? CHO[Math.floor((ch.charCodeAt(0) - HANGUL_START) / 588)] : ch;
+}
+
+/** 띄어쓰기를 뺀 글자 목록 (원래 위치 기억) */
+function toChars(text) {
+  const out = [];
+  Array.from(text.toLowerCase()).forEach((ch, idx) => {
+    if (!/\s/.test(ch)) out.push({ ch, idx });
+  });
   return out;
 }
 
 function makeQuery(raw) {
-  const plain = normalize(raw);
-  if (!plain) return null;
-  const onlyConsonants = /^[ㄱ-ㅎ]+$/.test(plain);
-  return { plain, jamo: toJamo(plain), chosung: onlyConsonants ? plain : null };
+  const chars = toChars(raw).map((c) => c.ch);
+  if (!chars.length) return null;
+  const chosung = chars.every((ch) => /[ㄱ-ㅎ]/.test(ch)) ? chars : null;
+  return { chars, chosung };
 }
 
-function textMatches(text, q) {
-  if (normalize(text).includes(q.plain) || toJamo(text).includes(q.jamo)) return true;
-  return q.chosung ? toChosung(text).includes(q.chosung) : false;
+/** text의 start 글자부터 검색어가 맞으면 맞은 글자 수, 아니면 0 */
+function matchAt(t, start, q) {
+  const n = q.chars.length;
+  for (let k = 0; k < n - 1; k++) {
+    if (!t[start + k] || t[start + k].ch !== q.chars[k]) return 0;
+  }
+  const last = q.chars[n - 1];
+  const cur = t[start + n - 1];
+  if (!cur) return 0;
+  if (cur.ch === last) return n;
+  const lastJamo = charJamo(last);
+  const curJamo = charJamo(cur.ch);
+  if (curJamo.startsWith(lastJamo)) return n; // 이사 → 이삭, 이삭ㅌ → 이삭토
+  const next = t[start + n];
+  if (isSyllable(last) && next && curJamo.length < lastJamo.length && (curJamo + charCho(next.ch)).startsWith(lastJamo)) {
+    return n + 1; // 잇 → 이삭, 닭 → 달갈
+  }
+  return 0;
 }
 
-/** 검색어와 맞는 글자 범위들 [시작, 끝) — 자모로 맞은 위치를 원래 글자 위치로 되돌려요 */
+/** 검색어와 맞는 글자 범위들 [시작, 끝) — 원래 글자 위치 기준 */
 function matchRanges(text, q) {
   if (!q) return [];
-  const segs = []; // 글자별 [자모 시작, 자모 끝, 초성 시작, 초성 끝]
-  let jamo = "";
-  let cho = "";
-  for (const ch of text) {
-    const j = /\s/.test(ch) ? "" : toJamo(ch);
-    const c = /\s/.test(ch) ? "" : toChosung(ch);
-    segs.push([jamo.length, jamo.length + j.length, cho.length, cho.length + c.length]);
-    jamo += j;
-    cho += c;
-  }
-  const collect = (hay, needle, a, b) => {
-    const out = [];
-    let from = 0;
-    while (needle) {
-      const at = hay.indexOf(needle, from);
-      if (at < 0) break;
-      const end = at + needle.length;
-      const chars = segs.map((sg, i) => (sg[a] < end && sg[b] > at ? i : -1)).filter((i) => i >= 0);
-      if (chars.length) out.push([chars[0], chars[chars.length - 1] + 1]);
-      from = end;
+  const t = toChars(text);
+  const ranges = [];
+  for (let i = 0; i < t.length; ) {
+    let len = matchAt(t, i, q);
+    if (!len && q.chosung) {
+      len = q.chosung.every((c, k) => t[i + k] && charCho(t[i + k].ch) === c) ? q.chosung.length : 0;
     }
-    return out;
-  };
-  const ranges = collect(jamo, q.jamo, 0, 1);
-  return ranges.length || !q.chosung ? ranges : collect(cho, q.chosung, 2, 3);
+    if (len) {
+      ranges.push([t[i].idx, t[i + len - 1].idx + 1]);
+      i += len;
+    } else {
+      i += 1;
+    }
+  }
+  return ranges;
 }
 
 /** 검색어와 맞는 부분만 파랑으로 */
@@ -362,12 +368,10 @@ function Hl({ text, q }) {
 /** 0: 안 맞음 · 1: 혜택·조건·업종이 맞음 · 2: 이름이 맞음 · 3: 이름이 이렇게 시작 */
 function searchRank(store, q) {
   if (!q) return 1;
-  if (textMatches(store.name, q)) {
-    const starts = toJamo(store.name).startsWith(q.jamo) || (q.chosung && toChosung(store.name).startsWith(q.chosung));
-    return starts ? 3 : 2;
-  }
-  const rest = [store.category, store.provider, ...store.benefits.map((b) => `${b.title} ${b.tag || ""}`)];
-  return rest.some((t) => textMatches(t, q)) ? 1 : 0;
+  const nameRanges = matchRanges(store.name, q);
+  if (nameRanges.length) return nameRanges[0][0] === 0 ? 3 : 2;
+  const rest = [store.category, ...store.benefits.flatMap((b) => [b.title, b.tag || ""])];
+  return rest.some((t) => matchRanges(t, q).length) ? 1 : 0;
 }
 
 function sortStores(list, sort, base) {
