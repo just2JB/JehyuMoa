@@ -1363,3 +1363,215 @@ img {
   color: var(--text-3);
   font-size: 14px;
 }
+
+/* =========================================================
+   스플래시 (약 1.5초)
+   0.00s 티켓 로고가 튀어나옴
+   0.38s 할인 도장 "쾅" + 화면 흔들림 + 쿠폰 조각이 퍼짐
+   0.60s 앱 이름
+   0.75s 정가에 줄이 그어지고 → 할인가가 튀어나옴
+   1.50s 위로 사라짐 (누르면 바로 넘어감)
+   ========================================================= */
+.splash {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: radial-gradient(circle at 50% 40%, #3b7bff 0%, var(--primary) 55%, #1a4fc4 100%);
+  color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.26s cubic-bezier(0.4, 0, 1, 1), opacity 0.26s ease-in;
+}
+
+.splash.is-leaving {
+  transform: translateY(-6%) scale(1.04);
+  opacity: 0;
+}
+
+.splash-stage {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+  animation: splash-shake 0.14s 0.42s 2 linear;
+}
+
+.splash-logo {
+  filter: drop-shadow(0 10px 24px rgba(8, 24, 72, 0.35));
+  animation: splash-pop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.splash-stamp {
+  position: absolute;
+  right: -14px;
+  top: -10px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--scrap);
+  color: var(--text-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 0 0 4px #fff, 0 8px 18px rgba(8, 24, 72, 0.35);
+  transform: rotate(-14deg);
+  animation: splash-stamp 0.22s 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.splash-stamp b {
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.splash-stamp small {
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.splash-burst span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -10px 0 0 -10px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-weight: 900;
+  color: #ffe08a;
+  opacity: 0;
+  animation: splash-burst 0.5s 0.42s cubic-bezier(0.1, 0.8, 0.3, 1) both;
+}
+
+.splash-title {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  animation: splash-rise 0.3s 0.55s ease-out both;
+}
+
+.splash-price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 18px;
+  animation: splash-rise 0.25s 0.68s ease-out both;
+}
+
+.splash-price s {
+  position: relative;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.splash-price s::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: 52%;
+  height: 2px;
+  background: #ffe08a;
+  transform-origin: left;
+  animation: splash-strike 0.18s 0.78s ease-out both;
+}
+
+.splash-price b {
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffe08a;
+  animation: splash-pop 0.3s 0.92s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.splash-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  animation: splash-rise 0.3s 0.95s ease-out both;
+}
+
+@keyframes splash-pop {
+  from {
+    transform: scale(0.3) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes splash-stamp {
+  from {
+    transform: scale(2.6) rotate(-30deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(-14deg);
+    opacity: 1;
+  }
+}
+
+@keyframes splash-shake {
+  25% {
+    transform: translate(-3px, 2px);
+  }
+  50% {
+    transform: translate(3px, -2px);
+  }
+  75% {
+    transform: translate(-2px, -1px);
+  }
+}
+
+@keyframes splash-burst {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateY(0) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-110px) scale(1.1);
+  }
+}
+
+@keyframes splash-rise {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes splash-strike {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* 움직임 줄이기를 켠 사용자는 정지 화면만 잠깐 보여 줘요 */
+.splash.is-reduced *,
+.splash.is-reduced {
+  animation: none !important;
+  transition-duration: 0.01s !important;
+}
+
+.splash.is-reduced .splash-burst {
+  display: none;
+}

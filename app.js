@@ -1043,7 +1043,65 @@ function TabBar({ tab, setTab }) {
 }
 
 /* ---------------------------------------------------------
-   6. App
+   6. 스플래시
+   "제휴 할인" 느낌을 한눈에: 티켓 로고 등장 → 할인 도장 쾅 → 정가가 지워지고 할인가.
+   전체 약 1.5초, 화면을 누르면 바로 넘어가요.
+   --------------------------------------------------------- */
+const SPLASH_MS = 1500;
+const SPLASH_EXIT_MS = 260;
+
+function Splash({ onDone }) {
+  const [leaving, setLeaving] = useState(false);
+  const reduce = useMemo(() => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches, []);
+
+  useEffect(() => {
+    const total = reduce ? 600 : SPLASH_MS;
+    const t1 = setTimeout(() => setLeaving(true), total);
+    const t2 = setTimeout(onDone, total + SPLASH_EXIT_MS);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
+  const skip = () => {
+    if (leaving) return;
+    setLeaving(true);
+    setTimeout(onDone, SPLASH_EXIT_MS);
+  };
+
+  // 도장이 찍히는 순간 퍼지는 쿠폰 조각
+  const bits = ["%", "₩", "%", "★", "%", "₩", "%", "★"];
+
+  return (
+    <div className={`splash ${leaving ? "is-leaving" : ""} ${reduce ? "is-reduced" : ""}`} onClick={skip} role="presentation">
+      <div className="splash-stage">
+        <div className="splash-burst" aria-hidden="true">
+          {bits.map((b, i) => (
+            <span key={i} style={{ "--a": `${i * 45 + 20}deg` }}>
+              {b}
+            </span>
+          ))}
+        </div>
+        <img className="splash-logo" src="images/logo.svg" width="120" height="120" alt="" />
+        <div className="splash-stamp" aria-hidden="true">
+          <b>%</b>
+          <small>제휴 할인</small>
+        </div>
+      </div>
+      <h1 className="splash-title">제휴모아</h1>
+      <p className="splash-price" aria-hidden="true">
+        <s>10,000원</s>
+        <b>8,000원</b>
+      </p>
+      <p className="splash-sub">우리 학교 제휴 할인, 한곳에서</p>
+      <span className="sr-only">제휴모아를 불러오는 중</span>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------
+   7. App
    --------------------------------------------------------- */
 const DEFAULT_COND = { myCollege: "공학대학", people: 2, sameCollege: true, mix: { 공학대학: 2 } };
 
@@ -1061,6 +1119,7 @@ function App() {
   const [overlay, setOverlay] = useState(null); // sort | base | condition
   const [sortAnchor, setSortAnchor] = useState({ top: 0, right: 16 });
   const [toast, setToast] = useState(null);
+  const [splash, setSplash] = useState(true);
   const appRef = useRef(null);
   const sortBtnRef = useRef(null);
   const toastTimer = useRef(null);
@@ -1257,6 +1316,8 @@ function App() {
           setToast(null);
         }}
       />
+
+      {splash && <Splash onDone={() => setSplash(false)} />}
     </div>
   );
 }
