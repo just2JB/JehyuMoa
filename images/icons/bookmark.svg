@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/bookmark">
+<mask id="stroke0_0_540" fill="white">
+<path d="M19 21L12 17L5 21V5C5 3.9 5.9 3 7 3H17C18.1 3 19 3.9 19 5V21Z"/>
+</mask>
+<path id="&#235;&#182;&#129;&#235;&#167;&#136;&#237;&#129;&#172;" d="M19 21L12 17L5 21V5C5 3.9 5.9 3 7 3H17C18.1 3 19 3.9 19 5V21Z" stroke-width="4" stroke-linecap="round" stroke="#8B909C" mask="url(#stroke0_0_540)"/>
+</g>
+</svg>

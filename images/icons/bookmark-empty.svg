@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32.16" height="32.16" viewBox="0 0 32.16 32.16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/bookmark">
+<g id="&#235;&#182;&#129;&#235;&#167;&#136;&#237;&#129;&#172;">
+<path d="M25.46 28.14L16.08 22.78L6.7 28.14V6.7C6.7 5.226 7.906 4.02 9.38 4.02H22.78C24.254 4.02 25.46 5.226 25.46 6.7V28.14Z" fill="#EBB925"/>
+<mask id="stroke0_0_12" fill="white">
+<path d="M25.46 28.14L16.08 22.78L6.7 28.14V6.7C6.7 5.226 7.906 4.02 9.38 4.02H22.78C24.254 4.02 25.46 5.226 25.46 6.7V28.14Z"/>
+</mask>
+<path d="M25.46 28.14L16.08 22.78L6.7 28.14V6.7C6.7 5.226 7.906 4.02 9.38 4.02H22.78C24.254 4.02 25.46 5.226 25.46 6.7V28.14Z" stroke-width="5.36" stroke-linecap="round" stroke="#EBB925" mask="url(#stroke0_0_12)"/>
+</g>
+</g>
+</svg>
