@@ -27,18 +27,21 @@ const STUDENT_COUNCIL = "총학생회";
 
 const STORES = [
   {
+    map: { x: 154, y: 274 }, // 지도 바탕(375×812) 위 핀 끝 위치
     id: "isaac", name: "이삭토스트", category: "카페", photo: "images/stores/isaac.png",
     distance: { gate: 40, back: 520 }, favorites: 77, provider: STUDENT_COUNCIL,
     hours: { open: "08:00", close: "21:00" },
     benefits: [{ title: "음료 1,000원 할인", tag: "토스트·음료 함께", details: ["토스트와 음료를 함께 주문"] }],
   },
   {
+    map: { x: 122, y: 388 },
     id: "oliva", name: "올리바샌드위치", category: "식당", photo: "images/stores/oliva.png",
     distance: { gate: 60, back: 480 }, favorites: 98, provider: STUDENT_COUNCIL,
     hours: { open: "09:00", close: "20:00" },
     benefits: [{ title: "탄산음료 1캔", tag: "8,000원 이상", details: ["8,000원 이상 주문"] }],
   },
   {
+    map: { x: 129, y: 395 },
     id: "iseo", name: "이서식당", category: "식당", photo: null,
     distance: { gate: 90, back: 450 }, favorites: 64, provider: STUDENT_COUNCIL,
     hours: { open: "11:00", close: "21:00" },
@@ -48,12 +51,14 @@ const STORES = [
     ],
   },
   {
+    map: { x: 252, y: 286 },
     id: "yuga", name: "유가네닭갈비", category: "식당", photo: "images/stores/yuga.png",
     distance: { gate: 130, back: 400 }, favorites: 121, provider: STUDENT_COUNCIL,
     hours: { open: "11:00", close: "22:00" },
     benefits: [{ title: "음료 1캔", tag: "고기 메뉴 주문 시", details: ["고기 메뉴 주문"] }],
   },
   {
+    map: { x: 185, y: 420 },
     id: "yuknsha", name: "육앤샤", category: "술집", photo: "images/stores/yuknsha.png",
     distance: { gate: 180, back: 330 }, favorites: 187, provider: STUDENT_COUNCIL,
     hours: { open: "17:00", close: "02:00" },
@@ -63,6 +68,7 @@ const STORES = [
     ],
   },
   {
+    map: { x: 244, y: 430 },
     id: "ilmi", name: "원조감자탕 일미집", category: "식당", photo: "images/stores/ilmi.png",
     hero: "images/stores/ilmi-hero.png",
     distance: { gate: 240, back: 300 }, favorites: 156, provider: "공학대학 학생회 아름",
@@ -77,6 +83,7 @@ const STORES = [
     ],
   },
   {
+    map: { x: 246, y: 294 },
     id: "circle", name: "동그라미(써클)", category: "술집", photo: null,
     distance: { gate: 300, back: 260 }, favorites: 109, provider: STUDENT_COUNCIL,
     hours: { open: "18:00", close: "03:00" },
@@ -86,12 +93,14 @@ const STORES = [
     ],
   },
   {
+    map: { x: 325, y: 420 },
     id: "rock", name: "락", category: "술집", photo: "images/stores/rock.png",
     distance: { gate: 350, back: 210 }, favorites: 212, provider: STUDENT_COUNCIL,
     hours: { open: "18:00", close: "04:00" },
     benefits: [{ title: "소주 무제한 4,000원", tag: "오후 9시까지", details: ["오후 9시 전 입장"] }],
   },
   {
+    map: { x: 331, y: 413 },
     id: "manchwi", name: "만취", category: "술집", photo: "images/stores/manchwi.png",
     distance: { gate: 380, back: 190 }, favorites: 171, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "17:00", close: "03:00" },
@@ -101,6 +110,7 @@ const STORES = [
     ],
   },
   {
+    map: { x: 319, y: 427 },
     id: "daldal", name: "달달포차", category: "술집", photo: "images/stores/daldal.png",
     distance: { gate: 410, back: 170 }, favorites: 143, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "18:00", close: "04:00" },
@@ -110,6 +120,7 @@ const STORES = [
     ],
   },
   {
+    map: { x: 211, y: 518 },
     id: "roadrock", name: "로드락비어", category: "술집", photo: "images/stores/roadrock.png",
     distance: { gate: 470, back: 120 }, favorites: 134, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "17:00", close: "02:00" },
@@ -119,12 +130,14 @@ const STORES = [
     ],
   },
   {
+    map: { x: 259, y: 293 },
     id: "ilmidak", name: "일미닭갈비파전", category: "식당", photo: "images/stores/ilmi-dakgalbi.png",
     distance: { gate: 520, back: 90 }, favorites: 88, provider: STUDENT_COUNCIL,
     hours: { open: "11:30", close: "23:00" },
     benefits: [{ title: "볶음밥 1인분 또는 사리", tag: "3인분 이상", details: ["닭갈비 3인분 이상 주문"] }],
   },
   {
+    map: { x: 81, y: 323 },
     id: "jaika", name: "자이카 인도요리", category: "식당", photo: "images/stores/jaika.png",
     distance: { gate: 610, back: 140 }, favorites: 52, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "11:00", close: "21:30" },
@@ -135,6 +148,7 @@ const STORES = [
   },
   // 다른 단과대 학생회 제휴 예시 (소속 조건 필터 확인용)
   {
+    map: { x: 292, y: 352 },
     id: "sw-chicken", name: "한입치킨", category: "술집", photo: null,
     distance: { gate: 280, back: 260 }, favorites: 61, provider: "소프트웨어융합대학 학생회",
     providerCollege: "소프트웨어융합대학",
@@ -142,6 +156,7 @@ const STORES = [
     benefits: [{ title: "감자튀김 1개", tag: "2명 이상", details: ["2명 이상 방문"], minPeople: 2 }],
   },
   {
+    map: { x: 92, y: 470 },
     id: "design-snack", name: "청춘분식", category: "식당", photo: null,
     distance: { gate: 150, back: 410 }, favorites: 45, provider: "디자인대학 학생회",
     providerCollege: "디자인대학",
@@ -449,10 +464,189 @@ function FavoritesScreen({ stores, sort, base, cond, onOpenSort, sortBtnRef, row
   );
 }
 
-function MapScreen() {
+/* ---------- 지도보기 ----------
+   Figma 일러스트 지도(375×812) 위에 목록과 같은 조건의 가게를 핀으로 보여 줘요.
+   가까운 핀은 묶어서 숫자로, 핀을 누르면 아래 카드로 보여 줘요. */
+const MAP_W = 375;
+const MAP_H = 812;
+const GATE = { x: 110, y: 455 };
+const CLUSTER_PX = 26;
+
+const MAP_LABELS = [
+  { text: "한양대학교 ERICA", x: 30.7, y: 496, size: 12, weight: 700, color: "#4e7398" },
+  { text: "약학대학", x: 86.6, y: 751.8, size: 8, color: "#7890a8" },
+  { text: "에리카컨벤션", x: 168.5, y: 617.8, size: 8, color: "#7890a8" },
+  { text: "제1공학관", x: 64.3, y: 658.4, size: 8, color: "#7890a8" },
+  { text: "꿈동산어린이공원", x: 181.8, y: 284.1, size: 8, weight: 500, color: "#3e8650" },
+  { text: "숲속마을아파트", x: 231, y: 174.8, size: 9, color: "#8a8378" },
+  { text: "마로니에공원", x: 111.1, y: 203.2, size: 9, weight: 500, color: "#3e8650" },
+  { text: "안산천", x: 95, y: 126, size: 10, weight: 500, color: "#3d84c6", rotate: -26 },
+];
+
+function clusterStores(stores) {
+  const groups = [];
+  stores.forEach((s) => {
+    const g = groups.find((gr) => Math.hypot(gr.x - s.map.x, gr.y - s.map.y) < CLUSTER_PX);
+    if (g) g.stores.push(s);
+    else groups.push({ x: s.map.x, y: s.map.y, stores: [s] });
+  });
+  return groups;
+}
+
+function MapScreen(props) {
+  const { stores, base, rowProps } = props;
+  const viewRef = useRef(null);
+  const drag = useRef(null);
+  const [view, setView] = useState({ w: MAP_W, h: 500 });
+  const [pan, setPan] = useState(null);
+  const [selected, setSelected] = useState(null); // 묶음의 첫 가게 id
+
+  const scale = Math.max(1, view.w / MAP_W);
+  const clamp = (p) => ({
+    x: Math.min(0, Math.max(view.w - MAP_W * scale, p.x)),
+    y: Math.min(0, Math.max(view.h - MAP_H * scale, p.y)),
+  });
+  const centerOn = (pt) => clamp({ x: view.w / 2 - pt.x * scale, y: view.h * 0.45 - pt.y * scale });
+
+  // 지도 영역 크기 재기
+  useEffect(() => {
+    const el = viewRef.current;
+    if (!el) return;
+    const measure = () => setView({ w: el.clientWidth, h: el.clientHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    setPan((p) => (p ? clamp(p) : centerOn({ x: 200, y: 400 })));
+  }, [view.w, view.h]);
+
+  const groups = useMemo(() => clusterStores(stores), [stores]);
+  const selGroup = groups.find((g) => g.stores[0].id === selected) || null;
+
+  // 조건이 바뀌어 고른 가게가 사라지면 선택 해제
+  useEffect(() => {
+    if (selected && !selGroup) setSelected(null);
+  }, [groups]);
+
+  const onPointerDown = (e) => {
+    // 포인터 캡처 뒤에는 pointerup 대상이 지도 영역으로 바뀌므로, 누른 핀을 여기서 기억해요
+    const pin = e.target.closest && e.target.closest("[data-pin]");
+    drag.current = { sx: e.clientX, sy: e.clientY, start: pan, moved: false, pin: pin && pin.getAttribute("data-pin") };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e) => {
+    const d = drag.current;
+    if (!d) return;
+    const dx = e.clientX - d.sx;
+    const dy = e.clientY - d.sy;
+    if (Math.abs(dx) + Math.abs(dy) > 6) d.moved = true;
+    if (d.moved) setPan(clamp({ x: d.start.x + dx, y: d.start.y + dy }));
+  };
+  const onPointerUp = () => {
+    const d = drag.current;
+    drag.current = null;
+    if (d && !d.moved) setSelected(d.pin || null);
+  };
+
+  const p = pan || { x: 0, y: 0 };
+
   return (
-    <div className="screen">
-      <div className="placeholder">지도보기 화면은 준비 중이에요</div>
+    <div className="screen map-screen">
+      <TopUI {...props} />
+      <div
+        className="map-view"
+        ref={viewRef}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => (drag.current = null)}
+      >
+        <div
+          className="map-canvas"
+          style={{ transform: `translate(${p.x}px, ${p.y}px) scale(${scale})` }}
+        >
+          <img src="images/map/base.svg" width={MAP_W} height={MAP_H} alt="" draggable="false" />
+          <img src="images/map/district.svg" width={MAP_W} height={MAP_H} alt="" draggable="false" />
+          {MAP_LABELS.map((l) => (
+            <span
+              key={l.text}
+              className="map-label"
+              style={{
+                left: l.x,
+                top: l.y,
+                fontSize: l.size,
+                fontWeight: l.weight || 400,
+                color: l.color,
+                transform: l.rotate ? `rotate(${l.rotate}deg)` : undefined,
+              }}
+            >
+              {l.text}
+            </span>
+          ))}
+          <span className="map-gate" style={{ left: GATE.x - 12, top: GATE.y - 12 }}>
+            <img src="images/map/dot.svg" width="8" height="8" alt="" />
+            ERICA 정문
+          </span>
+          {groups.map((g) => {
+            const s = g.stores[0];
+            const on = selected === s.id;
+            return (
+              <button
+                key={s.id}
+                data-pin={s.id}
+                className={`pin ${on ? "is-on" : ""}`}
+                style={{ left: g.x, top: g.y, zIndex: on ? 3 : 1 }}
+                aria-label={g.stores.length > 1 ? `${s.name} 외 ${g.stores.length - 1}곳` : s.name}
+                aria-pressed={on}
+                onKeyDown={(e) => (e.key === "Enter" || e.key === " " ? setSelected(s.id) : null)}
+              >
+                <span className="pin-frame">
+                  <Thumb store={s} size={on ? 48 : 38} />
+                </span>
+                <img className="pin-tail" src={on ? "images/map/tail-selected.svg" : "images/map/tail.svg"} width="12" height="7" alt="" />
+                {g.stores.length > 1 && <span className="pin-count">{g.stores.length}</span>}
+                {on && <span className="pin-name">{g.stores.length > 1 ? `${s.name} 외 ${g.stores.length - 1}곳` : s.name}</span>}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="map-guide">
+          이 근처 제휴 가게 <b>{stores.length}곳</b>
+        </div>
+
+        <button
+          className="map-locate"
+          style={{ bottom: selGroup ? 122 : 16 }}
+          aria-label="ERICA 정문으로 이동"
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerUp={(e) => e.stopPropagation()}
+          onClick={() => setPan(centerOn(GATE))}
+        >
+          <Icon name="locate" size={24} />
+        </button>
+
+        {selGroup && (
+          <div
+            className="map-cards"
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+          >
+            {selGroup.stores.map((s) => (
+              <div className="map-card" key={s.id}>
+                <StoreRow store={s} base={base} {...rowProps(s)} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {stores.length === 0 && (
+          <div className="map-empty">조건에 맞는 제휴 가게가 없어요</div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1231,7 +1425,16 @@ function App() {
           }}
         />
       )}
-      {tab === "map" && <MapScreen />}
+      {tab === "map" && (
+        <MapScreen
+          {...shared}
+          stores={listStores}
+          query={query}
+          setQuery={setQuery}
+          category={category}
+          setCategory={setCategory}
+        />
+      )}
       {tab === "favorites" && <FavoritesScreen {...shared} stores={favStores} goList={() => setTab("list")} />}
       {tab === "my" && (
         <MyScreen
