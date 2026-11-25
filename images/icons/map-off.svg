@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/map">
+<mask id="stroke0_0_478" fill="white">
+<path d="M3 6L9 3L15 6L21 3V18L15 21L9 18L3 21V6Z"/>
+</mask>
+<path id="Vector" d="M3 6L9 3L15 6L21 3V18L15 21L9 18L3 21V6Z" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="#8B909C" mask="url(#stroke0_0_478)"/>
+<path id="Vector_2" d="M9 3V18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#8B909C"/>
+<path id="Vector_3" d="M15 6V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#8B909C"/>
+</g>
+</svg>
