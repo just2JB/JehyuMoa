@@ -1350,13 +1350,14 @@ img {
 }
 
 /* =========================================================
-   스플래시 · 로고 조립 (약 1.35초)
-   0.00s 파랑 티켓 몸통이 가운데에서 좌우로 펼쳐짐
-   0.28s 흰 면이 오른쪽에서 밀려 들어와 맞물림
-   0.46s H는 왼쪽 위에서, Y는 오른쪽 아래에서 꽂힘
-   0.72s 로고 전체가 '딸깍' 고정되며 빛이 한 번 스침
-   0.80s 앱 이름 · 한 줄 소개가 아래에서 드러남
-   1.35s 사라짐 (누르면 바로)
+   스플래시 · 로고 그리기 (흰 배경, 파랑 단색, 약 1.3초)
+   0.00s 파랑 선이 티켓 윤곽을 한 붓으로 그림 (티켓 구멍 위·아래 포함)
+   0.45s 윤곽 안이 파랑으로 채워짐
+   0.62s 흰 면이 왼쪽 경계에서 오른쪽으로 열림
+   0.72s H · Y가 제자리에서 드러남 → 로고 완성
+   0.85s 앱 이름
+   1.30s 사라짐 (누르면 바로)
+   그라데이션 · 빛 · 튕김 없이 선 → 면 → 글자 순서로만 쌓아요.
    ========================================================= */
 .splash {
   position: absolute;
@@ -1366,203 +1367,89 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  background: #0a0d14;
-  color: #fff;
+  gap: 20px;
+  background: #fff;
   cursor: pointer;
-  overflow: hidden;
-  transition: opacity 0.28s ease, transform 0.28s ease;
+  transition: opacity 0.24s ease;
 }
 
 .splash.is-leaving {
   opacity: 0;
-  transform: scale(1.03);
-}
-
-.splash::before {
-  content: "";
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.32), transparent 65%);
-  animation: splash-glow 1.2s ease-out both;
 }
 
 .splash-logo {
-  position: relative;
   overflow: visible;
 }
 
-.splash-logo .part,
-.splash-logo .lock {
-  transform-box: fill-box;
-  transform-origin: center;
+.splash-logo .outline {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: splash-draw 0.5s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
-.splash-logo .ticket {
-  animation: splash-unfold 0.34s cubic-bezier(0.7, 0, 0.2, 1) both;
+.splash-logo .fill {
+  opacity: 0;
+  animation: splash-fade 0.2s 0.45s ease-out both;
 }
 
 .splash-logo .face {
-  animation: splash-slide 0.3s 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  clip-path: inset(0 100% 0 0);
+  animation: splash-open 0.24s 0.62s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
-.splash-logo .h {
-  animation: splash-drop-h 0.28s 0.46s cubic-bezier(0.3, 1.4, 0.5, 1) both;
-}
-
+.splash-logo .h,
 .splash-logo .y {
-  animation: splash-drop-y 0.28s 0.52s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+  opacity: 0;
+  animation: splash-fade 0.18s 0.74s ease-out both;
 }
 
-.splash-logo .lock {
-  animation: splash-lock 0.22s 0.72s ease-out both;
-}
-
-.splash-logo .sheen {
-  animation: splash-sheen 0.5s 0.74s ease-in-out both;
-}
-
-.splash-text {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.splash-text h1,
-.splash-text p {
-  overflow: hidden;
-}
-
-.splash-text h1 span,
-.splash-text p span {
-  display: block;
-  animation: splash-reveal 0.36s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.splash-text p span {
-  animation-delay: 0.88s;
-}
-
-.splash-text h1 {
-  font-size: 26px;
+.splash-name {
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--primary);
+  opacity: 0;
+  animation: splash-fade 0.24s 0.86s ease-out both;
 }
 
-.splash-text p {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.splash-text p b {
-  color: #8fb0ff;
-  font-weight: 700;
-}
-
-@keyframes splash-unfold {
-  from {
-    transform: scaleX(0.04) scaleY(0.6);
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
+@keyframes splash-draw {
   to {
-    transform: none;
-    opacity: 1;
+    stroke-dashoffset: 0;
   }
 }
 
-@keyframes splash-slide {
-  from {
-    transform: translateX(70%);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-
-@keyframes splash-drop-h {
-  from {
-    transform: translate(-40%, -60%) scale(0.6);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-
-@keyframes splash-drop-y {
-  from {
-    transform: translate(40%, 60%) scale(0.6);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-
-@keyframes splash-lock {
-  0% {
-    transform: scale(1);
-  }
-  45% {
-    transform: scale(1.07);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes splash-sheen {
-  from {
-    transform: translateX(0) skewX(-20deg);
-  }
-  to {
-    transform: translateX(360px) skewX(-20deg);
-  }
-}
-
-@keyframes splash-reveal {
-  from {
-    transform: translateY(110%);
-  }
-  to {
-    transform: none;
-  }
-}
-
-@keyframes splash-glow {
-  from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
+@keyframes splash-fade {
   to {
     opacity: 1;
-    transform: none;
+  }
+}
+
+@keyframes splash-open {
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 
 /* 움직임 줄이기: 완성된 로고만 잠깐 */
-.splash.is-reduced,
 .splash.is-reduced *,
-.splash.is-reduced::before {
+.splash.is-reduced {
   animation: none !important;
   transition-duration: 0.01s !important;
 }
 
-.splash.is-reduced .sheen {
-  display: none;
+.splash.is-reduced .fill,
+.splash.is-reduced .h,
+.splash.is-reduced .y,
+.splash.is-reduced .splash-name {
+  opacity: 1;
+}
+
+.splash.is-reduced .face {
+  clip-path: none;
+}
+
+.splash.is-reduced .outline {
+  stroke-dashoffset: 0;
 }
 
 /* =========================================================

@@ -1381,13 +1381,13 @@ function TabBar({ tab, setTab }) {
 }
 
 /* ---------------------------------------------------------
-   6. 스플래시 · 로고 조립
-   티켓 몸통이 펼쳐지고 → 흰 면이 밀려 들어와 맞물리고 → H와 Y가 제자리에 꽂히며
-   제휴모아 로고로 완성돼요. 약 1.35초, 누르면 바로 넘어가요.
+   6. 스플래시 · 로고 그리기 (흰 배경, 파랑 단색)
+   티켓 윤곽선이 한 붓으로 그려지고 → 파랑으로 채워지고 →
+   흰 면 · H · Y가 드러나며 제휴모아 로고로 완성돼요. 약 1.3초, 누르면 바로 넘어가요.
    (images/logo.svg와 같은 로고를 조각별로 움직이려고 경로를 나눠 둔 것)
    --------------------------------------------------------- */
-const SPLASH_MS = 1350;
-const SPLASH_EXIT_MS = 280;
+const SPLASH_MS = 1300;
+const SPLASH_EXIT_MS = 240;
 
 const LOGO_PARTS = {
   ticket:
@@ -1420,37 +1420,14 @@ function Splash({ onDone }) {
 
   return (
     <div className={`splash ${leaving ? "is-leaving" : ""} ${reduce ? "is-reduced" : ""}`} onClick={skip} role="presentation">
-      <svg className="splash-logo" width="96" height="96" viewBox="0 0 200 200" aria-hidden="true">
-        <defs>
-          <clipPath id="splash-ticket-clip">
-            <path d={LOGO_PARTS.ticket} />
-          </clipPath>
-          <linearGradient id="splash-sheen" x1="0" x2="1">
-            <stop offset="0" stopColor="#fff" stopOpacity="0" />
-            <stop offset="0.5" stopColor="#fff" stopOpacity="0.55" />
-            <stop offset="1" stopColor="#fff" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <g className="lock">
-          <path className="part ticket" d={LOGO_PARTS.ticket} fill="#2563EB" />
-          <g clipPath="url(#splash-ticket-clip)">
-            <path className="part face" d={LOGO_PARTS.face} fill="#fff" />
-            <rect className="sheen" x="-80" y="-20" width="40" height="240" fill="url(#splash-sheen)" />
-          </g>
-          <path className="part h" d={LOGO_PARTS.h} fill="#fff" />
-          <path className="part y" d={LOGO_PARTS.y} fill="#2563EB" />
-        </g>
+      <svg className="splash-logo" width="88" height="88" viewBox="-4 -4 208 208" aria-hidden="true">
+        <path className="fill" d={LOGO_PARTS.ticket} fill="#2563EB" />
+        <path className="outline" d={LOGO_PARTS.ticket} pathLength="1" fill="none" stroke="#2563EB" strokeWidth="5" strokeLinejoin="round" />
+        <path className="face" d={LOGO_PARTS.face} fill="#fff" />
+        <path className="h" d={LOGO_PARTS.h} fill="#fff" />
+        <path className="y" d={LOGO_PARTS.y} fill="#2563EB" />
       </svg>
-      <div className="splash-text">
-        <h1>
-          <span>제휴모아</span>
-        </h1>
-        <p>
-          <span>
-            ERICA <b>제휴 할인</b> 모아보기
-          </span>
-        </p>
-      </div>
+      <h1 className="splash-name">제휴모아</h1>
       <span className="sr-only">제휴모아를 불러오는 중</span>
     </div>
   );
