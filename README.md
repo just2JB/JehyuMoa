@@ -31,7 +31,7 @@
 | 소속 설정 | 사용자의 단과대학을 선택해 적용 가능한 제휴 확인 |
 | 동행 조건 설정 | 함께 방문하는 인원과 단과대학 구성을 설정 |
 | 제휴 상세 | 매장별 혜택, 적용 대상, 이용 조건 확인 |
-| 위치 확인 | 외부 지도로 매장 위치 검색 |
+| 지도보기 | 실제 지도(OpenStreetMap)에서 제휴 가게 위치 확인, 카카오맵 길찾기 연결 |
 
 ## 기본 사용 흐름
 
@@ -40,7 +40,7 @@
 3. 필요하면 함께 방문하는 인원과 소속을 설정합니다.
 4. 카테고리 또는 검색으로 원하는 제휴를 찾습니다.
 5. 상세 화면에서 적용 대상과 이용 조건을 확인합니다.
-6. 외부 지도로 매장 위치를 확인합니다.
+6. 지도보기나 카카오맵 길찾기로 매장 위치를 확인합니다.
 
 ## 대상 사용자
 
@@ -59,6 +59,7 @@ HTML에서 CDN으로 라이브러리를 불러오고, `type="text/babel"`로 작
 | ReactDOM 18 | `ReactDOM.createRoot`를 통한 화면 렌더링 |
 | Babel Standalone | 브라우저에서 JSX 변환 |
 | CSS | 모바일 화면 레이아웃과 스타일 |
+| Leaflet 1.9 | 지도보기 화면의 실제 지도 (OpenStreetMap 데이터, CARTO 타일 · API 키 불필요) |
 
 ### 기본 파일 구성
 
@@ -83,6 +84,8 @@ JehyuMoa/
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
