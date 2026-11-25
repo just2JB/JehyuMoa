@@ -1,1 +1,12 @@
 first_example
+
+# 환경변수 · 로컬 설정 (키 같은 실제 값은 올리지 않아요)
+config.js
+.env
+.env.*
+!.env.example
+
+# 에디터 · OS
+.vscode/
+.DS_Store
+Thumbs.db

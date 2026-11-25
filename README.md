@@ -70,6 +70,7 @@ JehyuMoa/
 ├── index.html    # React·ReactDOM·Babel 로딩 및 root 요소
 ├── app.js        # JSX 컴포넌트, 상태 관리, 화면 전환
 ├── style.css     # 화면 스타일
+├── config.example.js  # 설정 템플릿 (복사해서 config.js로 · config.js는 깃 제외)
 ├── images/       # 이미지 리소스
 ├── docs/         # 설계 근거 문서 (애니메이션, 기능 검토, UI 제안 등)
 └── README.md
@@ -93,6 +94,18 @@ JehyuMoa/
   <script type="text/babel" src="app.js"></script>
 </body>
 ```
+
+### 설정 파일 (환경변수)
+
+빌드 없이 브라우저에서 실행하므로 `.env` 대신 `config.js`를 설정 파일로 씁니다.
+
+```bash
+cp config.example.js config.js   # 그다음 config.js에 값 입력
+```
+
+- `config.js`는 `.gitignore`에 있어 깃에 올라가지 않습니다. 템플릿은 `config.example.js`입니다.
+- 브라우저에서 보이는 값이므로 **도메인 제한이 걸린 공개용 키만** 넣고, 비밀 키는 넣지 않습니다.
+- 파일이 없어도 앱은 기본값(키가 필요 없는 OpenStreetMap 지도)으로 동작합니다.
 
 화면은 React 컴포넌트로 나누고, 수업 예제처럼 `React.useState`와 props를 이용해 화면 전환과 사용자 선택을 관리합니다.
 앱 파일 추가 후 VS Code의 Live Server 등 로컬 HTTP 서버에서 `index.html`을 실행합니다. CDN 라이브러리를 불러오려면 인터넷 연결이 필요합니다.

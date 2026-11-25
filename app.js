@@ -4,6 +4,9 @@
    ========================================================= */
 const { useState, useEffect, useMemo, useRef } = React;
 
+/* 로컬 설정 (config.js · 없으면 기본값) */
+const CONFIG = Object.assign({ KAKAO_MAP_JS_KEY: "", DATA_URL: "data/stores.json" }, window.JEHYUMOA_CONFIG || {});
+
 /* ---------------------------------------------------------
    1. 목 데이터 (Figma 11주차 화면 기준)
    실제 제휴 정보가 아니라 프로토타입 확인용 예시입니다.
