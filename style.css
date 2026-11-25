@@ -1556,3 +1556,219 @@ img {
 .splash.is-reduced .splash-burst {
   display: none;
 }
+
+/* =========================================================
+   지도보기
+   ========================================================= */
+.map-screen {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.map-view {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #eef0f3;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.map-view:active {
+  cursor: grabbing;
+}
+
+.map-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 375px;
+  height: 812px;
+  transform-origin: 0 0;
+}
+
+.map-canvas > img {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.map-label {
+  position: absolute;
+  white-space: nowrap;
+  line-height: normal;
+  letter-spacing: 0;
+  pointer-events: none;
+  transform-origin: left top;
+}
+
+.map-gate {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 99px;
+  background: var(--text-1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* 핀: left/top이 꼬리 끝(가게 위치) */
+.pin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  filter: drop-shadow(0 3px 4px rgba(11, 15, 26, 0.22));
+}
+
+.pin-frame {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg-screen);
+  display: grid;
+  place-items: center;
+  margin-bottom: -1px;
+}
+
+.pin-frame .thumb {
+  border-radius: 9px;
+}
+
+.pin.is-on .pin-frame {
+  width: 54px;
+  height: 54px;
+  border-radius: 15px;
+  background: var(--primary);
+}
+
+.pin.is-on .pin-frame .thumb {
+  border-radius: 12px;
+}
+
+.pin-count {
+  position: absolute;
+  left: 31px;
+  top: -7px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  border: 2px solid var(--bg-screen);
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  box-sizing: border-box;
+}
+
+.pin.is-on .pin-count {
+  left: 41px;
+}
+
+.pin-name {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(11, 15, 26, 0.14);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.map-guide {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: var(--bg-screen);
+  box-shadow: 0 2px 8px rgba(11, 15, 26, 0.12);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.map-guide b {
+  color: var(--primary);
+}
+
+.map-locate {
+  position: absolute;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: var(--bg-screen);
+  box-shadow: 0 3px 10px rgba(11, 15, 26, 0.16);
+  display: grid;
+  place-items: center;
+}
+
+.map-cards {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+  padding: 0 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+}
+
+.map-cards::-webkit-scrollbar {
+  height: 0;
+}
+
+.map-card {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(11, 15, 26, 0.16);
+}
+
+.map-cards .map-card:only-child {
+  flex-basis: 100%;
+}
+
+.map-cards .map-card:not(:only-child) {
+  flex-basis: calc(100% - 24px);
+}
+
+.map-card .store-row {
+  background: var(--bg-screen);
+}
+
+.map-empty {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--bg-screen);
+  box-shadow: 0 2px 8px rgba(11, 15, 26, 0.12);
+  font-size: 13px;
+  color: var(--text-2);
+  pointer-events: none;
+}
