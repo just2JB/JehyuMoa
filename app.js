@@ -252,6 +252,74 @@ function openState(hours, now = new Date()) {
     : { isOpen, text: `${hourText(hours.open)}에 열어요` };
 }
 
+/* ---------- 한글 검색 ----------
+   '이삭토스트'를 치는 도중의 '이사', '잇', 'ㅇ'도 찾아지도록 글자를 자모로 풀어서 비교해요.
+   - 잇(ㅇㅣㅅ) ⊂ 이삭(ㅇㅣㅅㅏㄱ)  → 받침이 다음 글자 첫소리로 넘어가는 순간도 찾음
+   - 겹받침·겹모음도 풀어서 비교 (닭 → ㄷㅏㄹㄱ, 과 → ㄱㅗㅏ)
+   - 자음만 치면 초성 검색 (ㅇㅅㅌㅅㅌ → 이삭토스트)
+   - 띄어쓰기 · 대소문자 무시 */
+const CHO = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+const JUNG = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
+const JONG = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
+const SPLIT = {
+  ㄳ: "ㄱㅅ", ㄵ: "ㄴㅈ", ㄶ: "ㄴㅎ", ㄺ: "ㄹㄱ", ㄻ: "ㄹㅁ", ㄼ: "ㄹㅂ", ㄽ: "ㄹㅅ", ㄾ: "ㄹㅌ", ㄿ: "ㄹㅍ", ㅀ: "ㄹㅎ", ㅄ: "ㅂㅅ",
+  ㅘ: "ㅗㅏ", ㅙ: "ㅗㅐ", ㅚ: "ㅗㅣ", ㅝ: "ㅜㅓ", ㅞ: "ㅜㅔ", ㅟ: "ㅜㅣ", ㅢ: "ㅡㅣ",
+};
+const HANGUL_START = 0xac00;
+const HANGUL_END = 0xd7a3;
+
+function normalize(text) {
+  return text.toLowerCase().replace(/\s+/g, "");
+}
+
+function toJamo(text) {
+  let out = "";
+  for (const ch of normalize(text)) {
+    const code = ch.charCodeAt(0);
+    if (code >= HANGUL_START && code <= HANGUL_END) {
+      const i = code - HANGUL_START;
+      const jong = JONG[i % 28];
+      const jung = JUNG[Math.floor(i / 28) % 21];
+      out += CHO[Math.floor(i / 588)] + (SPLIT[jung] || jung) + (SPLIT[jong] || jong);
+    } else {
+      out += SPLIT[ch] || ch;
+    }
+  }
+  return out;
+}
+
+function toChosung(text) {
+  let out = "";
+  for (const ch of normalize(text)) {
+    const code = ch.charCodeAt(0);
+    out += code >= HANGUL_START && code <= HANGUL_END ? CHO[Math.floor((code - HANGUL_START) / 588)] : ch;
+  }
+  return out;
+}
+
+function makeQuery(raw) {
+  const plain = normalize(raw);
+  if (!plain) return null;
+  const onlyConsonants = /^[ㄱ-ㅎ]+$/.test(plain);
+  return { plain, jamo: toJamo(plain), chosung: onlyConsonants ? plain : null };
+}
+
+function textMatches(text, q) {
+  if (normalize(text).includes(q.plain) || toJamo(text).includes(q.jamo)) return true;
+  return q.chosung ? toChosung(text).includes(q.chosung) : false;
+}
+
+/** 0: 안 맞음 · 1: 혜택·조건·업종이 맞음 · 2: 이름이 맞음 · 3: 이름이 이렇게 시작 */
+function searchRank(store, q) {
+  if (!q) return 1;
+  if (textMatches(store.name, q)) {
+    const starts = toJamo(store.name).startsWith(q.jamo) || (q.chosung && toChosung(store.name).startsWith(q.chosung));
+    return starts ? 3 : 2;
+  }
+  const rest = [store.category, store.provider, ...store.benefits.map((b) => `${b.title} ${b.tag || ""}`)];
+  return rest.some((t) => textMatches(t, q)) ? 1 : 0;
+}
+
 function sortStores(list, sort, base) {
   const copy = [...list];
   if (sort === "distance") copy.sort((a, b) => distanceOf(a, base) - distanceOf(b, base));
@@ -1386,19 +1454,23 @@ function App() {
     setRecent([id, ...recent.filter((r) => r !== id)].slice(0, 20));
   };
 
+  const searchQuery = useMemo(() => makeQuery(query), [query]);
+
   const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
     return STORES.filter((s) => isEligible(s, cond))
       .filter((s) => category === "전체" || s.category === category)
-      .filter(
-        (s) =>
-          !q ||
-          s.name.toLowerCase().includes(q) ||
-          s.benefits.some((b) => (b.title + (b.tag || "")).toLowerCase().includes(q))
-      );
-  }, [cond, category, query]);
+      .filter((s) => searchRank(s, searchQuery) > 0);
+  }, [cond, category, searchQuery]);
 
-  const listStores = useMemo(() => sortStores(visible, sort, base), [visible, sort, base]);
+  // 고른 정렬은 유지하되, 검색 중에는 이름이 맞는 가게를 혜택만 맞는 가게보다 먼저
+  const listStores = useMemo(() => {
+    const sorted = sortStores(visible, sort, base);
+    if (!searchQuery) return sorted;
+    return sorted
+      .map((s, i) => ({ s, i, r: searchRank(s, searchQuery) }))
+      .sort((a, b) => b.r - a.r || a.i - b.i)
+      .map((x) => x.s);
+  }, [visible, sort, base, searchQuery]);
   const favStores = useMemo(
     () => sortStores(STORES.filter((s) => favSet.has(s.id) && isEligible(s, cond)), sort, base),
     [favSet, cond, sort, base]
