@@ -33,7 +33,31 @@
     <!-- 로컬 설정 (config.example.js를 복사해 config.js로 만들어요 · 깃에는 안 올라가요) -->
     <script src="config.js" onerror="window.JEHYUMOA_CONFIG = window.JEHYUMOA_CONFIG || {}"></script>
 
-    <!-- JSX 코드 -->
+    <!-- JSX 코드: Babel Standalone이 위에서부터 순서대로 실행해요. 앞 파일의 이름을 뒤 파일이 쓰므로 순서를 지켜 주세요. -->
+    <!-- 1) 공통 · 데이터 -->
+    <script type="text/babel" src="src/core.js"></script>
+    <script type="text/babel" src="src/data/constants.js"></script>
+    <script type="text/babel" src="src/data/stores.js"></script>
+    <!-- 2) 도우미 -->
+    <script type="text/babel" src="src/lib/storage.js"></script>
+    <script type="text/babel" src="src/lib/geo.js"></script>
+    <script type="text/babel" src="src/lib/condition.js"></script>
+    <script type="text/babel" src="src/lib/hours.js"></script>
+    <script type="text/babel" src="src/lib/search.js"></script>
+    <script type="text/babel" src="src/lib/sort.js"></script>
+    <script type="text/babel" src="src/lib/router.js"></script>
+    <!-- 3) 컴포넌트 -->
+    <script type="text/babel" src="src/components/common.js"></script>
+    <script type="text/babel" src="src/components/SortMenu.js"></script>
+    <script type="text/babel" src="src/components/ConditionModal.js"></script>
+    <script type="text/babel" src="src/components/Splash.js"></script>
+    <!-- 4) 화면 -->
+    <script type="text/babel" src="src/screens/ListScreen.js"></script>
+    <script type="text/babel" src="src/screens/FavoritesScreen.js"></script>
+    <script type="text/babel" src="src/screens/MapScreen.js"></script>
+    <script type="text/babel" src="src/screens/MyScreen.js"></script>
+    <script type="text/babel" src="src/screens/DetailScreen.js"></script>
+    <!-- 5) 앱 조립 · 라우팅 (마지막) -->
     <script type="text/babel" src="app.js"></script>
   </body>
 </html>

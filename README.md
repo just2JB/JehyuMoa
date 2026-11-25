@@ -63,18 +63,38 @@ HTML에서 CDN으로 라이브러리를 불러오고, `type="text/babel"`로 작
 
 ### 기본 파일 구성
 
-개발 시 아래 구성을 기준으로 파일을 추가합니다.
-
 ```text
 JehyuMoa/
-├── index.html    # React·ReactDOM·Babel 로딩 및 root 요소
-├── app.js        # JSX 컴포넌트, 상태 관리, 화면 전환
-├── style.css     # 화면 스타일
-├── config.example.js  # 설정 템플릿 (복사해서 config.js로 · config.js는 깃 제외)
-├── images/       # 이미지 리소스
-├── docs/         # 설계 근거 문서 (애니메이션, 기능 검토, UI 제안 등)
+├── index.html          # React·ReactDOM·Babel·Leaflet 로딩, root 요소, 스크립트 순서
+├── app.js              # 앱 조립: 상태 · 해시 라우팅 · 화면 연결 (마지막에 실행)
+├── style.css           # 화면 스타일
+├── config.example.js   # 설정 템플릿 (복사해서 config.js로 · config.js는 깃 제외)
+├── src/
+│   ├── core.js         # React 훅, 로컬 설정 (가장 먼저)
+│   ├── data/           # constants.js(단과대·정렬 등) · stores.js(제휴 가게 데이터)
+│   ├── lib/            # storage · geo(거리) · condition(조건) · hours(영업) · search(한글 검색) · sort · router
+│   ├── components/     # common(아이콘·매장 줄·탭 등) · SortMenu · ConditionModal · Splash
+│   └── screens/        # ListScreen · MapScreen · FavoritesScreen · MyScreen · DetailScreen
+├── images/             # 이미지 리소스
+├── docs/               # 설계 근거 문서
 └── README.md
 ```
+
+#### 화면 주소 (해시 라우팅)
+
+| 주소 | 화면 |
+| --- | --- |
+| `#/list` | 목록 (기본) |
+| `#/map` | 지도보기 |
+| `#/favorites` | 즐겨찾기 |
+| `#/my` | 마이 페이지 |
+| `#/store/:id` | 매장 상세 (예: `#/store/ilmi`) |
+
+라이브러리 없이 주소의 `#` 뒤를 화면으로 써서 Live Server 같은 정적 서버에서도 새로고침 · 뒤로가기 · 링크 공유가 됩니다.
+
+#### 스크립트 순서
+
+모든 JSX 파일은 `type="text/babel"`로 불러오고 Babel Standalone이 위에서부터 순서대로 실행합니다. 모듈(import) 없이 앞 파일에서 만든 이름을 뒤 파일이 쓰므로, 새 파일을 추가할 때는 `index.html`의 순서(core → data → lib → components → screens → app.js)를 지켜 주세요.
 
 `index.html`에서 라이브러리와 앱 코드를 다음과 같이 연결합니다.
 
@@ -91,6 +111,8 @@ JehyuMoa/
 </head>
 <body>
   <div id="root"></div>
+  <script type="text/babel" src="src/core.js"></script>
+  <!-- … src/ 파일들 (index.html 순서 참고) … -->
   <script type="text/babel" src="app.js"></script>
 </body>
 ```

@@ -1,0 +1,127 @@
+/* 제휴 가게 데이터 (목 데이터)
+   Figma 11주차 화면 기준 예시예요. 실제 제휴 정보로 바꾸는 방법은 docs/data-guide.md를 봐요. */
+
+const STORES = [
+  {
+    id: "isaac", name: "이삭토스트", category: "카페", photo: "images/stores/isaac.png",
+    lat: 37.300249, lng: 126.843907, favorites: 77, provider: STUDENT_COUNCIL,
+    hours: { open: "08:00", close: "21:00" },
+    benefits: [{ title: "음료 1,000원 할인", tag: "토스트·음료 함께", details: ["토스트와 음료를 함께 주문"] }],
+  },
+  {
+    id: "oliva", name: "올리바샌드위치", category: "식당", photo: "images/stores/oliva.png",
+    lat: 37.300431, lng: 126.843919, favorites: 98, provider: STUDENT_COUNCIL,
+    hours: { open: "09:00", close: "20:00" },
+    benefits: [{ title: "탄산음료 1캔", tag: "8,000원 이상", details: ["8,000원 이상 주문"] }],
+  },
+  {
+    id: "iseo", name: "이서식당", category: "식당", photo: null,
+    lat: 37.300671, lng: 126.844107, favorites: 64, provider: STUDENT_COUNCIL,
+    hours: { open: "11:00", close: "21:00" },
+    benefits: [
+      { title: "음료 1캔", tag: "2명당 1캔", details: ["2명이 함께 오면 1캔"], minPeople: 2 },
+      { title: "주류 1병", tag: "4명당", details: ["4명이 함께 오면 1병"], minPeople: 4 },
+    ],
+  },
+  {
+    id: "yuga", name: "유가네닭갈비", category: "식당", photo: "images/stores/yuga.png",
+    lat: 37.300794, lng: 126.844744, favorites: 121, provider: STUDENT_COUNCIL,
+    hours: { open: "11:00", close: "22:00" },
+    benefits: [{ title: "음료 1캔", tag: "고기 메뉴 주문 시", details: ["고기 메뉴 주문"] }],
+  },
+  {
+    id: "yuknsha", name: "육앤샤", category: "술집", photo: "images/stores/yuknsha.png",
+    lat: 37.300584, lng: 126.845642, favorites: 187, provider: STUDENT_COUNCIL,
+    hours: { open: "17:00", close: "02:00" },
+    benefits: [
+      { title: "소주 3,000원", tag: "오후 6시부터", details: ["오후 6시 이후 주문"] },
+      { title: "육회비빔밥 1개", tag: "메뉴 4개 이상", details: ["메뉴 4개 이상 주문"] },
+    ],
+  },
+  {
+    id: "ilmi", name: "원조감자탕 일미집", category: "식당", photo: "images/stores/ilmi.png",
+    hero: "images/stores/ilmi-hero.png",
+    lat: 37.300295, lng: 126.846464, favorites: 156, provider: "공학대학 학생회 아름",
+    providerCollege: "공학대학", pickOne: true,
+    hours: { open: "11:00", close: "22:00" },
+    period: "2026.09.01 ~ 12.31",
+    source: "https://www.instagram.com/p/DVYePuXkVl1/?img_index=1",
+    checkedAt: "2026.10.18",
+    benefits: [
+      { title: "펩시제로 1캔", fullTitle: "펩시제로 355ml 1캔", tag: "2명 이상 · 1인 1메뉴", details: ["2명 이상 방문", "1인 1메뉴"], minPeople: 2 },
+      { title: "볶음밥 또는 사리", tag: "감자탕(중) 이상", details: ["감자탕(중) 이상 주문"] },
+    ],
+  },
+  {
+    id: "circle", name: "동그라미(써클)", category: "술집", photo: null,
+    lat: 37.301959, lng: 126.845986, favorites: 109, provider: STUDENT_COUNCIL,
+    hours: { open: "18:00", close: "03:00" },
+    benefits: [
+      { title: "음료수 1개", tag: "4명 이상", details: ["4명 이상 방문"], minPeople: 4 },
+      { title: "5% 할인", tag: "현금/계좌이체", details: ["현금 또는 계좌이체로 결제"] },
+    ],
+  },
+  {
+    id: "rock", name: "락", category: "술집", photo: "images/stores/rock.png",
+    lat: 37.300405, lng: 126.847701, favorites: 212, provider: STUDENT_COUNCIL,
+    hours: { open: "18:00", close: "04:00" },
+    benefits: [{ title: "소주 무제한 4,000원", tag: "오후 9시까지", details: ["오후 9시 전 입장"] }],
+  },
+  {
+    id: "manchwi", name: "만취", category: "술집", photo: "images/stores/manchwi.png",
+    lat: 37.300537, lng: 126.848016, favorites: 171, provider: STUDENT_COUNCIL, pickOne: true,
+    hours: { open: "17:00", close: "03:00" },
+    benefits: [
+      { title: "주류 1병당 500원 할인", details: ["주류 주문 시 병마다 적용"] },
+      { title: "5% 할인", tag: "현금/계좌이체", details: ["현금 또는 계좌이체로 결제"] },
+    ],
+  },
+  {
+    id: "daldal", name: "달달포차", category: "술집", photo: "images/stores/daldal.png",
+    lat: 37.300389, lng: 126.848389, favorites: 143, provider: STUDENT_COUNCIL, pickOne: true,
+    hours: { open: "18:00", close: "04:00" },
+    benefits: [
+      { title: "10% 할인", tag: "현금/계좌이체", details: ["현금 또는 계좌이체로 결제"] },
+      { title: "주류 1병 500원 할인", details: ["주류 주문 시 적용"] },
+    ],
+  },
+  {
+    id: "roadrock", name: "로드락비어", category: "술집", photo: "images/stores/roadrock.png",
+    lat: 37.297666, lng: 126.848303, favorites: 134, provider: STUDENT_COUNCIL, pickOne: true,
+    hours: { open: "17:00", close: "02:00" },
+    benefits: [
+      { title: "음료 또는 주류 1병", tag: "탕 세트 주문 시", details: ["탕 세트 주문"] },
+      { title: "주류 1병", tag: "20명 이상 · 테이블당", details: ["20명 이상 단체 방문", "테이블마다 1병"], minPeople: 20 },
+    ],
+  },
+  {
+    id: "ilmidak", name: "일미닭갈비파전", category: "식당", photo: "images/stores/ilmi-dakgalbi.png",
+    lat: 37.303338, lng: 126.847775, favorites: 88, provider: STUDENT_COUNCIL,
+    hours: { open: "11:30", close: "23:00" },
+    benefits: [{ title: "볶음밥 1인분 또는 사리", tag: "3인분 이상", details: ["닭갈비 3인분 이상 주문"] }],
+  },
+  {
+    id: "jaika", name: "자이카 인도요리", category: "식당", photo: "images/stores/jaika.png",
+    lat: 37.305252, lng: 126.842322, favorites: 52, provider: STUDENT_COUNCIL, pickOne: true,
+    hours: { open: "11:00", close: "21:30" },
+    benefits: [
+      { title: "음료 1개", tag: "테이블당", details: ["테이블마다 1개"] },
+      { title: "믹스샐러드 1개", tag: "5명 이상", details: ["5명 이상 방문"], minPeople: 5 },
+    ],
+  },
+  // 다른 단과대 학생회 제휴 예시 (소속 조건 필터 확인용)
+  {
+    id: "sw-chicken", name: "한입치킨", category: "술집", photo: null,
+    lat: 37.301139, lng: 126.846552, favorites: 61, provider: "소프트웨어융합대학 학생회",
+    providerCollege: "소프트웨어융합대학",
+    hours: { open: "16:00", close: "01:00" },
+    benefits: [{ title: "감자튀김 1개", tag: "2명 이상", details: ["2명 이상 방문"], minPeople: 2 }],
+  },
+  {
+    id: "design-snack", name: "청춘분식", category: "식당", photo: null,
+    lat: 37.301021, lng: 126.842860, favorites: 45, provider: "디자인대학 학생회",
+    providerCollege: "디자인대학",
+    hours: { open: "10:00", close: "20:00" },
+    benefits: [{ title: "튀김 1인분", tag: "1인 1메뉴", details: ["1인 1메뉴 주문"] }],
+  },
+];
