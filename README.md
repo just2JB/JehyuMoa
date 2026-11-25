@@ -70,6 +70,7 @@ JehyuMoa/
 ├── app.js        # JSX 컴포넌트, 상태 관리, 화면 전환
 ├── style.css     # 화면 스타일
 ├── images/       # 이미지 리소스
+├── docs/         # 설계 근거 문서 (애니메이션, 기능 검토, UI 제안 등)
 └── README.md
 ```
 

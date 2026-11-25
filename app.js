@@ -285,9 +285,17 @@ function Thumb({ store, size = 64 }) {
 
 function BookmarkButton({ on, onToggle, name, size = 24, variant = "list" }) {
   const icon = on ? (variant === "detail" ? "bookmark-detail" : "bookmark-on") : "bookmark";
+  // 담는 순간에만 튀어요: 처음 그릴 때 이미 담긴 북마크는 움직이지 않게
+  const prev = useRef(on);
+  const [bump, setBump] = useState(false);
+  useEffect(() => {
+    if (on && !prev.current) setBump(true);
+    prev.current = on;
+  }, [on]);
   return (
     <button
-      className="bm-btn"
+      className={`bm-btn ${bump ? "is-bump" : ""}`}
+      onAnimationEnd={() => setBump(false)}
       aria-pressed={on}
       aria-label={on ? `${name} 즐겨찾기에서 빼기` : `${name} 즐겨찾기에 담기`}
       onClick={(e) => {
@@ -397,7 +405,8 @@ function TopUI({ cond, onOpenCondition, query, setQuery, category, setCategory }
 }
 
 function ListScreen(props) {
-  const { stores, sort, base, onOpenSort, sortBtnRef, rowProps, cond, onResetFilters } = props;
+  const { stores, sort, base, onOpenSort, sortBtnRef, rowProps, cond, onResetFilters, category } = props;
+  const listKey = `${sort}-${base}-${category}-${conditionLabel(cond)}`;
   return (
     <div className="screen">
       <TopUI {...props} />
@@ -420,7 +429,7 @@ function ListScreen(props) {
           </button>
         </div>
       ) : (
-        <div>
+        <div className="store-list" key={listKey}>
           {stores.map((s) => (
             <StoreRow key={s.id} store={s} base={base} {...rowProps(s)} />
           ))}
@@ -431,6 +440,7 @@ function ListScreen(props) {
 }
 
 function FavoritesScreen({ stores, sort, base, cond, onOpenSort, sortBtnRef, rowProps, goList }) {
+  const listKey = `${sort}-${base}`;
   return (
     <div className="screen">
       <div className="page-head">
@@ -454,7 +464,7 @@ function FavoritesScreen({ stores, sort, base, cond, onOpenSort, sortBtnRef, row
           </button>
         </div>
       ) : (
-        <div>
+        <div className="store-list" key={listKey}>
           {stores.map((s) => (
             <StoreRow key={s.id} store={s} base={base} {...rowProps(s)} />
           ))}
@@ -500,6 +510,7 @@ function MapScreen(props) {
   const [view, setView] = useState({ w: MAP_W, h: 500 });
   const [pan, setPan] = useState(null);
   const [selected, setSelected] = useState(null); // 묶음의 첫 가게 id
+  const [smooth, setSmooth] = useState(false); // 버튼으로 옮길 때만 transition
 
   const scale = Math.max(1, view.w / MAP_W);
   const clamp = (p) => ({
@@ -543,7 +554,10 @@ function MapScreen(props) {
     const dx = e.clientX - d.sx;
     const dy = e.clientY - d.sy;
     if (Math.abs(dx) + Math.abs(dy) > 6) d.moved = true;
-    if (d.moved) setPan(clamp({ x: d.start.x + dx, y: d.start.y + dy }));
+    if (d.moved) {
+      setSmooth(false);
+      setPan(clamp({ x: d.start.x + dx, y: d.start.y + dy }));
+    }
   };
   const onPointerUp = () => {
     const d = drag.current;
@@ -565,7 +579,7 @@ function MapScreen(props) {
         onPointerCancel={() => (drag.current = null)}
       >
         <div
-          className="map-canvas"
+          className={`map-canvas ${smooth ? "is-smooth" : ""}`}
           style={{ transform: `translate(${p.x}px, ${p.y}px) scale(${scale})` }}
         >
           <img src="images/map/base.svg" width={MAP_W} height={MAP_H} alt="" draggable="false" />
@@ -624,13 +638,17 @@ function MapScreen(props) {
           aria-label="ERICA 정문으로 이동"
           onPointerDown={(e) => e.stopPropagation()}
           onPointerUp={(e) => e.stopPropagation()}
-          onClick={() => setPan(centerOn(GATE))}
+          onClick={() => {
+            setSmooth(true);
+            setPan(centerOn(GATE));
+          }}
         >
           <Icon name="locate" size={24} />
         </button>
 
         {selGroup && (
           <div
+            key={selected}
             className="map-cards"
             onPointerDown={(e) => e.stopPropagation()}
             onPointerUp={(e) => e.stopPropagation()}
@@ -1134,7 +1152,7 @@ function ConditionModal({ cond, onApply, onClose }) {
                           <button onClick={() => step(c, -1)} disabled={isMe && n <= 1} aria-label={`${c} 한 명 빼기`}>
                             <Icon name="minus" size={16} />
                           </button>
-                          <output aria-live="polite">{n}</output>
+                          <output aria-live="polite" key={n} className="bump">{n}</output>
                           <button className="plus" onClick={() => step(c, 1)} disabled={mixTotal >= draft.people} aria-label={`${c} 한 명 더하기`}>
                             <Icon name="plus" size={16} />
                           </button>
@@ -1205,7 +1223,7 @@ function startMix(cond) {
 function Toast({ toast, onAction }) {
   if (!toast) return null;
   return (
-    <div className="toast" role="status" aria-live="polite">
+    <div className="toast" role="status" aria-live="polite" key={toast.id}>
       <span>{toast.message}</span>
       {toast.action && <button onClick={onAction}>{toast.action}</button>}
     </div>
