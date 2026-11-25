@@ -309,6 +309,56 @@ function textMatches(text, q) {
   return q.chosung ? toChosung(text).includes(q.chosung) : false;
 }
 
+/** 검색어와 맞는 글자 범위들 [시작, 끝) — 자모로 맞은 위치를 원래 글자 위치로 되돌려요 */
+function matchRanges(text, q) {
+  if (!q) return [];
+  const segs = []; // 글자별 [자모 시작, 자모 끝, 초성 시작, 초성 끝]
+  let jamo = "";
+  let cho = "";
+  for (const ch of text) {
+    const j = /\s/.test(ch) ? "" : toJamo(ch);
+    const c = /\s/.test(ch) ? "" : toChosung(ch);
+    segs.push([jamo.length, jamo.length + j.length, cho.length, cho.length + c.length]);
+    jamo += j;
+    cho += c;
+  }
+  const collect = (hay, needle, a, b) => {
+    const out = [];
+    let from = 0;
+    while (needle) {
+      const at = hay.indexOf(needle, from);
+      if (at < 0) break;
+      const end = at + needle.length;
+      const chars = segs.map((sg, i) => (sg[a] < end && sg[b] > at ? i : -1)).filter((i) => i >= 0);
+      if (chars.length) out.push([chars[0], chars[chars.length - 1] + 1]);
+      from = end;
+    }
+    return out;
+  };
+  const ranges = collect(jamo, q.jamo, 0, 1);
+  return ranges.length || !q.chosung ? ranges : collect(cho, q.chosung, 2, 3);
+}
+
+/** 검색어와 맞는 부분만 파랑으로 */
+function Hl({ text, q }) {
+  const ranges = matchRanges(text, q);
+  if (!ranges.length) return text;
+  const chars = Array.from(text);
+  const out = [];
+  let last = 0;
+  ranges.forEach(([a, b], i) => {
+    if (a > last) out.push(chars.slice(last, a).join(""));
+    out.push(
+      <mark className="hl" key={i}>
+        {chars.slice(a, b).join("")}
+      </mark>
+    );
+    last = b;
+  });
+  if (last < chars.length) out.push(chars.slice(last).join(""));
+  return out;
+}
+
 /** 0: 안 맞음 · 1: 혜택·조건·업종이 맞음 · 2: 이름이 맞음 · 3: 이름이 이렇게 시작 */
 function searchRank(store, q) {
   if (!q) return 1;
@@ -376,7 +426,7 @@ function BookmarkButton({ on, onToggle, name, size = 24, variant = "list" }) {
   );
 }
 
-function StoreRow({ store, base, isFav, favCount, onToggleFav, onOpen }) {
+function StoreRow({ store, base, isFav, favCount, onToggleFav, onOpen, q = null }) {
   return (
     <div
       className="store-row"
@@ -388,14 +438,22 @@ function StoreRow({ store, base, isFav, favCount, onToggleFav, onOpen }) {
       <Thumb store={store} />
       <div className="info">
         <div className="name-line">
-          <strong>{store.name}</strong>
+          <strong>
+            <Hl text={store.name} q={q} />
+          </strong>
           {store.pickOne && <span className="badge-pick">택 1</span>}
           <span className="meta">{formatDistance(distanceOf(store, base))}</span>
         </div>
         {store.benefits.map((b) => (
           <div className="benefit-line" key={b.title}>
-            <span>{b.title}</span>
-            {b.tag && <span className="tag">{b.tag}</span>}
+            <span>
+              <Hl text={b.title} q={q} />
+            </span>
+            {b.tag && (
+              <span className="tag">
+                <Hl text={b.tag} q={q} />
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -473,7 +531,7 @@ function TopUI({ cond, onOpenCondition, query, setQuery, category, setCategory }
 }
 
 function ListScreen(props) {
-  const { stores, sort, base, onOpenSort, sortBtnRef, rowProps, cond, onResetFilters, category } = props;
+  const { searchQuery, stores, sort, base, onOpenSort, sortBtnRef, rowProps, cond, onResetFilters, category } = props;
   const listKey = `${sort}-${base}-${category}-${conditionLabel(cond)}`;
   return (
     <div className="screen">
@@ -499,7 +557,7 @@ function ListScreen(props) {
       ) : (
         <div className="store-list" key={listKey}>
           {stores.map((s) => (
-            <StoreRow key={s.id} store={s} base={base} {...rowProps(s)} />
+            <StoreRow key={s.id} store={s} base={base} q={searchQuery} {...rowProps(s)} />
           ))}
         </div>
       )}
@@ -572,7 +630,7 @@ function clusterStores(stores) {
 }
 
 function MapScreen(props) {
-  const { stores, base, rowProps } = props;
+  const { stores, base, rowProps, searchQuery } = props;
   const viewRef = useRef(null);
   const drag = useRef(null);
   const [view, setView] = useState({ w: MAP_W, h: 500 });
@@ -723,7 +781,7 @@ function MapScreen(props) {
           >
             {selGroup.stores.map((s) => (
               <div className="map-card" key={s.id}>
-                <StoreRow store={s} base={base} {...rowProps(s)} />
+                <StoreRow store={s} base={base} q={searchQuery} {...rowProps(s)} />
               </div>
             ))}
           </div>
@@ -1523,6 +1581,7 @@ function App() {
         <ListScreen
           {...shared}
           stores={listStores}
+          searchQuery={searchQuery}
           query={query}
           setQuery={setQuery}
           category={category}
@@ -1537,6 +1596,7 @@ function App() {
         <MapScreen
           {...shared}
           stores={listStores}
+          searchQuery={searchQuery}
           query={query}
           setQuery={setQuery}
           category={category}

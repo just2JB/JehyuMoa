@@ -859,7 +859,11 @@ img {
   gap: 12px;
   padding: 14px 16px;
   border-radius: 12px;
-  background: var(--text-1);
+  /* 반투명 + 뒤 배경 흐림: 아래 목록이 비쳐 보여 화면을 덜 가림. 흰 글자 대비는 AA 이상 유지 */
+  background: rgba(20, 23, 31, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 6px 20px rgba(11, 15, 26, 0.18);
   color: #fff;
   font-size: 14px;
   font-weight: 500;
@@ -1944,4 +1948,15 @@ img {
     animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* 검색어와 맞는 부분 강조 (파랑 = 지금 고른 것 · 내가 찾은 것) */
+mark.hl {
+  background: none;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.tag mark.hl {
+  color: var(--primary);
 }
