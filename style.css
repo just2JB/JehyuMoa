@@ -958,7 +958,7 @@ img {
 .photo-count {
   position: absolute;
   right: 16px;
-  bottom: 56px;
+  bottom: 12px;
   padding: 3px 10px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.45);
@@ -969,9 +969,7 @@ img {
 
 .detail-body {
   position: relative;
-  margin-top: -24px;
   background: var(--bg-screen);
-  border-radius: 24px 24px 0 0;
   padding: 24px 20px 40px;
   display: flex;
   flex-direction: column;
