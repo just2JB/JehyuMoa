@@ -1467,41 +1467,48 @@ img {
   min-height: 0;
   overflow: hidden;
   background: #eef0f3;
-  touch-action: none;
-  cursor: grab;
-  user-select: none;
+  /* Leaflet 내부 z-index(400~)가 모달·상세 위로 올라오지 않게 여기서 가둬요 */
+  isolation: isolate;
+  z-index: 0;
 }
 
-.map-view:active {
-  cursor: grabbing;
+.map-box .pin {
+  cursor: pointer;
 }
 
-.map-canvas {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 375px;
-  height: 812px;
-  transform-origin: 0 0;
-}
-
-.map-canvas > img {
+.map-box {
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  z-index: 0;
+  font-family: inherit;
 }
 
-.map-label {
-  position: absolute;
-  white-space: nowrap;
-  line-height: normal;
-  letter-spacing: 0;
-  pointer-events: none;
-  transform-origin: left top;
+/* Leaflet 기본 스타일 덮기: 핀 아이콘 상자 없애고, 출처 표기는 작게 */
+.map-box .pin-icon,
+.map-box .map-gate-icon,
+.map-box .map-me-icon {
+  background: none;
+  border: none;
+}
+
+.map-box .leaflet-control-attribution {
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.map-me {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.18), 0 2px 6px rgba(11, 15, 26, 0.25);
 }
 
 .map-gate {
   position: absolute;
+  transform: translate(-50%, -50%);
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -1587,6 +1594,7 @@ img {
 
 .map-guide {
   position: absolute;
+  z-index: 500;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
@@ -1607,6 +1615,7 @@ img {
 
 .map-locate {
   position: absolute;
+  z-index: 500;
   right: 16px;
   width: 44px;
   height: 44px;
@@ -1619,6 +1628,7 @@ img {
 
 .map-cards {
   position: absolute;
+  z-index: 500;
   left: 0;
   right: 0;
   bottom: 12px;
@@ -1656,6 +1666,7 @@ img {
 
 .map-empty {
   position: absolute;
+  z-index: 500;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -1734,10 +1745,6 @@ img {
 
 .map-cards {
   animation: m-sheet 0.24s var(--ease-out) both;
-}
-
-.map-canvas.is-smooth {
-  transition: transform 0.35s var(--ease-out);
 }
 
 .map-locate {

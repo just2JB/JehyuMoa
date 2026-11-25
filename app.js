@@ -27,23 +27,20 @@ const STUDENT_COUNCIL = "총학생회";
 
 const STORES = [
   {
-    map: { x: 154, y: 274 }, // 지도 바탕(375×812) 위 핀 끝 위치
     id: "isaac", name: "이삭토스트", category: "카페", photo: "images/stores/isaac.png",
-    distance: { gate: 40, back: 520 }, favorites: 77, provider: STUDENT_COUNCIL,
+    lat: 37.300249, lng: 126.843907, favorites: 77, provider: STUDENT_COUNCIL,
     hours: { open: "08:00", close: "21:00" },
     benefits: [{ title: "음료 1,000원 할인", tag: "토스트·음료 함께", details: ["토스트와 음료를 함께 주문"] }],
   },
   {
-    map: { x: 122, y: 388 },
     id: "oliva", name: "올리바샌드위치", category: "식당", photo: "images/stores/oliva.png",
-    distance: { gate: 60, back: 480 }, favorites: 98, provider: STUDENT_COUNCIL,
+    lat: 37.300431, lng: 126.843919, favorites: 98, provider: STUDENT_COUNCIL,
     hours: { open: "09:00", close: "20:00" },
     benefits: [{ title: "탄산음료 1캔", tag: "8,000원 이상", details: ["8,000원 이상 주문"] }],
   },
   {
-    map: { x: 129, y: 395 },
     id: "iseo", name: "이서식당", category: "식당", photo: null,
-    distance: { gate: 90, back: 450 }, favorites: 64, provider: STUDENT_COUNCIL,
+    lat: 37.300671, lng: 126.844107, favorites: 64, provider: STUDENT_COUNCIL,
     hours: { open: "11:00", close: "21:00" },
     benefits: [
       { title: "음료 1캔", tag: "2명당 1캔", details: ["2명이 함께 오면 1캔"], minPeople: 2 },
@@ -51,16 +48,14 @@ const STORES = [
     ],
   },
   {
-    map: { x: 252, y: 286 },
     id: "yuga", name: "유가네닭갈비", category: "식당", photo: "images/stores/yuga.png",
-    distance: { gate: 130, back: 400 }, favorites: 121, provider: STUDENT_COUNCIL,
+    lat: 37.300794, lng: 126.844744, favorites: 121, provider: STUDENT_COUNCIL,
     hours: { open: "11:00", close: "22:00" },
     benefits: [{ title: "음료 1캔", tag: "고기 메뉴 주문 시", details: ["고기 메뉴 주문"] }],
   },
   {
-    map: { x: 185, y: 420 },
     id: "yuknsha", name: "육앤샤", category: "술집", photo: "images/stores/yuknsha.png",
-    distance: { gate: 180, back: 330 }, favorites: 187, provider: STUDENT_COUNCIL,
+    lat: 37.300584, lng: 126.845642, favorites: 187, provider: STUDENT_COUNCIL,
     hours: { open: "17:00", close: "02:00" },
     benefits: [
       { title: "소주 3,000원", tag: "오후 6시부터", details: ["오후 6시 이후 주문"] },
@@ -68,10 +63,9 @@ const STORES = [
     ],
   },
   {
-    map: { x: 244, y: 430 },
     id: "ilmi", name: "원조감자탕 일미집", category: "식당", photo: "images/stores/ilmi.png",
     hero: "images/stores/ilmi-hero.png",
-    distance: { gate: 240, back: 300 }, favorites: 156, provider: "공학대학 학생회 아름",
+    lat: 37.300295, lng: 126.846464, favorites: 156, provider: "공학대학 학생회 아름",
     providerCollege: "공학대학", pickOne: true,
     hours: { open: "11:00", close: "22:00" },
     period: "2026.09.01 ~ 12.31",
@@ -83,9 +77,8 @@ const STORES = [
     ],
   },
   {
-    map: { x: 246, y: 294 },
     id: "circle", name: "동그라미(써클)", category: "술집", photo: null,
-    distance: { gate: 300, back: 260 }, favorites: 109, provider: STUDENT_COUNCIL,
+    lat: 37.301959, lng: 126.845986, favorites: 109, provider: STUDENT_COUNCIL,
     hours: { open: "18:00", close: "03:00" },
     benefits: [
       { title: "음료수 1개", tag: "4명 이상", details: ["4명 이상 방문"], minPeople: 4 },
@@ -93,16 +86,14 @@ const STORES = [
     ],
   },
   {
-    map: { x: 325, y: 420 },
     id: "rock", name: "락", category: "술집", photo: "images/stores/rock.png",
-    distance: { gate: 350, back: 210 }, favorites: 212, provider: STUDENT_COUNCIL,
+    lat: 37.300405, lng: 126.847701, favorites: 212, provider: STUDENT_COUNCIL,
     hours: { open: "18:00", close: "04:00" },
     benefits: [{ title: "소주 무제한 4,000원", tag: "오후 9시까지", details: ["오후 9시 전 입장"] }],
   },
   {
-    map: { x: 331, y: 413 },
     id: "manchwi", name: "만취", category: "술집", photo: "images/stores/manchwi.png",
-    distance: { gate: 380, back: 190 }, favorites: 171, provider: STUDENT_COUNCIL, pickOne: true,
+    lat: 37.300537, lng: 126.848016, favorites: 171, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "17:00", close: "03:00" },
     benefits: [
       { title: "주류 1병당 500원 할인", details: ["주류 주문 시 병마다 적용"] },
@@ -110,9 +101,8 @@ const STORES = [
     ],
   },
   {
-    map: { x: 319, y: 427 },
     id: "daldal", name: "달달포차", category: "술집", photo: "images/stores/daldal.png",
-    distance: { gate: 410, back: 170 }, favorites: 143, provider: STUDENT_COUNCIL, pickOne: true,
+    lat: 37.300389, lng: 126.848389, favorites: 143, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "18:00", close: "04:00" },
     benefits: [
       { title: "10% 할인", tag: "현금/계좌이체", details: ["현금 또는 계좌이체로 결제"] },
@@ -120,9 +110,8 @@ const STORES = [
     ],
   },
   {
-    map: { x: 211, y: 518 },
     id: "roadrock", name: "로드락비어", category: "술집", photo: "images/stores/roadrock.png",
-    distance: { gate: 470, back: 120 }, favorites: 134, provider: STUDENT_COUNCIL, pickOne: true,
+    lat: 37.297666, lng: 126.848303, favorites: 134, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "17:00", close: "02:00" },
     benefits: [
       { title: "음료 또는 주류 1병", tag: "탕 세트 주문 시", details: ["탕 세트 주문"] },
@@ -130,16 +119,14 @@ const STORES = [
     ],
   },
   {
-    map: { x: 259, y: 293 },
     id: "ilmidak", name: "일미닭갈비파전", category: "식당", photo: "images/stores/ilmi-dakgalbi.png",
-    distance: { gate: 520, back: 90 }, favorites: 88, provider: STUDENT_COUNCIL,
+    lat: 37.303338, lng: 126.847775, favorites: 88, provider: STUDENT_COUNCIL,
     hours: { open: "11:30", close: "23:00" },
     benefits: [{ title: "볶음밥 1인분 또는 사리", tag: "3인분 이상", details: ["닭갈비 3인분 이상 주문"] }],
   },
   {
-    map: { x: 81, y: 323 },
     id: "jaika", name: "자이카 인도요리", category: "식당", photo: "images/stores/jaika.png",
-    distance: { gate: 610, back: 140 }, favorites: 52, provider: STUDENT_COUNCIL, pickOne: true,
+    lat: 37.305252, lng: 126.842322, favorites: 52, provider: STUDENT_COUNCIL, pickOne: true,
     hours: { open: "11:00", close: "21:30" },
     benefits: [
       { title: "음료 1개", tag: "테이블당", details: ["테이블마다 1개"] },
@@ -148,17 +135,15 @@ const STORES = [
   },
   // 다른 단과대 학생회 제휴 예시 (소속 조건 필터 확인용)
   {
-    map: { x: 292, y: 352 },
     id: "sw-chicken", name: "한입치킨", category: "술집", photo: null,
-    distance: { gate: 280, back: 260 }, favorites: 61, provider: "소프트웨어융합대학 학생회",
+    lat: 37.301139, lng: 126.846552, favorites: 61, provider: "소프트웨어융합대학 학생회",
     providerCollege: "소프트웨어융합대학",
     hours: { open: "16:00", close: "01:00" },
     benefits: [{ title: "감자튀김 1개", tag: "2명 이상", details: ["2명 이상 방문"], minPeople: 2 }],
   },
   {
-    map: { x: 92, y: 470 },
     id: "design-snack", name: "청춘분식", category: "식당", photo: null,
-    distance: { gate: 150, back: 410 }, favorites: 45, provider: "디자인대학 학생회",
+    lat: 37.301021, lng: 126.842860, favorites: 45, provider: "디자인대학 학생회",
     providerCollege: "디자인대학",
     hours: { open: "10:00", close: "20:00" },
     benefits: [{ title: "튀김 1인분", tag: "1인 1메뉴", details: ["1인 1메뉴 주문"] }],
@@ -173,9 +158,10 @@ const SORTS = {
   name: { label: "가나다순", desc: () => "가게 이름 ㄱ → ㅎ 순" },
 };
 
+/* 정문 · 후문 좌표는 OSM 캠퍼스 경계를 보고 잡은 근사값이에요. 실제 데이터 준비(#7)에서 현장 좌표로 바꿔요. */
 const BASES = {
-  gate: { label: "ERICA 정문", desc: "학교 정문에서 걸어서 잰 거리 · 기본" },
-  back: { label: "ERICA 후문", desc: "후문 쪽 가게가 먼저 보여요" },
+  gate: { label: "ERICA 정문", desc: "학교 정문에서 잰 거리 · 기본", lat: 37.2999, lng: 126.8438 },
+  back: { label: "ERICA 후문", desc: "후문 쪽 가게가 먼저 보여요", lat: 37.2935, lng: 126.8285 },
   me: { label: "지금 내 위치", desc: "위치 권한을 허용하면 쓸 수 있어요" },
 };
 
@@ -205,9 +191,26 @@ function formatDistance(m) {
   return m < 1000 ? `${m}m` : `${(m / 1000).toFixed(1)}km`;
 }
 
+/* 지금 내 위치 (브라우저 위치 권한으로 받은 값). 없으면 정문 기준으로 계산해요. */
+let MY_POS = null;
+
+function basePoint(base) {
+  if (base === "me" && MY_POS) return MY_POS;
+  return BASES[base === "me" ? "gate" : base];
+}
+
+/** 두 좌표 사이 직선거리(m) */
+function metersBetween(a, b) {
+  const R = 6371000;
+  const rad = (d) => (d * Math.PI) / 180;
+  const dLat = rad(b.lat - a.lat);
+  const dLng = rad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
 function distanceOf(store, base) {
-  if (base === "me") return Math.round((store.distance.gate + store.distance.back) / 2);
-  return store.distance[base];
+  return Math.round(metersBetween(basePoint(base), store) / 10) * 10;
 }
 
 /** 같이 가는 사람 전체가 이 가게 제휴 대상인지 */
@@ -604,159 +607,136 @@ function FavoritesScreen({ stores, sort, base, cond, onOpenSort, sortBtnRef, row
   );
 }
 
-/* ---------- 지도보기 ----------
-   Figma 일러스트 지도(375×812) 위에 목록과 같은 조건의 가게를 핀으로 보여 줘요.
-   가까운 핀은 묶어서 숫자로, 핀을 누르면 아래 카드로 보여 줘요. */
-const MAP_W = 375;
-const MAP_H = 812;
-const GATE = { x: 110, y: 455 };
-const CLUSTER_PX = 26;
+/* ---------- 지도보기 (실제 지도) ----------
+   Leaflet + OpenStreetMap 데이터(CARTO 밝은 지도 타일) 위에 목록과 같은 조건의 가게를
+   Figma '지도 썸네일 핀'으로 보여 줘요. 가까운 핀은 묶어서 숫자로, 핀을 누르면 아래 카드.
+   다른 지도(카카오맵 등)로 바꿀 때는 MAP_TILES와 이 컴포넌트만 바꾸면 돼요. */
+const MAP_TILES = {
+  url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  maxZoom: 19,
+};
+const MAP_START_ZOOM = 17;
+const CLUSTER_PX = 44; // 화면에서 이 거리보다 가까운 핀은 하나로 묶어요
 
-const MAP_LABELS = [
-  { text: "한양대학교 ERICA", x: 30.7, y: 496, size: 12, weight: 700, color: "#4e7398" },
-  { text: "약학대학", x: 86.6, y: 751.8, size: 8, color: "#7890a8" },
-  { text: "에리카컨벤션", x: 168.5, y: 617.8, size: 8, color: "#7890a8" },
-  { text: "제1공학관", x: 64.3, y: 658.4, size: 8, color: "#7890a8" },
-  { text: "꿈동산어린이공원", x: 181.8, y: 284.1, size: 8, weight: 500, color: "#3e8650" },
-  { text: "숲속마을아파트", x: 231, y: 174.8, size: 9, color: "#8a8378" },
-  { text: "마로니에공원", x: 111.1, y: 203.2, size: 9, weight: 500, color: "#3e8650" },
-  { text: "안산천", x: 95, y: 126, size: 10, weight: 500, color: "#3d84c6", rotate: -26 },
-];
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
 
-function clusterStores(stores) {
+function pinHtml(store, count, on) {
+  const size = on ? 48 : 38;
+  const inner = store.photo
+    ? `<img class="photo" src="${store.photo}" alt="" />`
+    : `<img src="images/icons/${store.category === "술집" ? "beer" : "utensils"}.svg" width="${Math.round(size * 0.44)}" height="${Math.round(size * 0.44)}" alt="" />`;
+  return `<div class="pin ${on ? "is-on" : ""}">
+    <span class="pin-frame"><span class="thumb ${store.photo ? "" : "cat-" + store.category}" style="width:${size}px;height:${size}px">${inner}</span></span>
+    <img class="pin-tail" src="images/map/${on ? "tail-selected" : "tail"}.svg" width="12" height="7" alt="" />
+    ${count > 1 ? `<span class="pin-count">${count}</span>` : ""}
+    ${on ? `<span class="pin-name">${escapeHtml(count > 1 ? `${store.name} 외 ${count - 1}곳` : store.name)}</span>` : ""}
+  </div>`;
+}
+
+/** 지금 확대 수준에서 화면상 가까운 가게끼리 묶기 (목록 순서의 첫 가게가 대표) */
+function clusterOnMap(map, stores) {
   const groups = [];
   stores.forEach((s) => {
-    const g = groups.find((gr) => Math.hypot(gr.x - s.map.x, gr.y - s.map.y) < CLUSTER_PX);
+    const pt = map.latLngToLayerPoint([s.lat, s.lng]);
+    const g = groups.find((gr) => gr.pt.distanceTo(pt) < CLUSTER_PX);
     if (g) g.stores.push(s);
-    else groups.push({ x: s.map.x, y: s.map.y, stores: [s] });
+    else groups.push({ pt, stores: [s] });
   });
   return groups;
 }
 
 function MapScreen(props) {
-  const { stores, base, rowProps, searchQuery } = props;
-  const viewRef = useRef(null);
-  const drag = useRef(null);
-  const [view, setView] = useState({ w: MAP_W, h: 500 });
-  const [pan, setPan] = useState(null);
-  const [selected, setSelected] = useState(null); // 묶음의 첫 가게 id
-  const [smooth, setSmooth] = useState(false); // 버튼으로 옮길 때만 transition
+  const { stores, base, rowProps, searchQuery, myPos } = props;
+  const boxRef = useRef(null);
+  const mapRef = useRef(null);
+  const layerRef = useRef(null);
+  const [zoom, setZoom] = useState(MAP_START_ZOOM);
+  const [selected, setSelected] = useState(null); // 묶음 대표 가게 id
+  const [failed, setFailed] = useState(false);
+  const [ready, setReady] = useState(false); // 지도가 만들어진 뒤에 핀을 그려요
 
-  const scale = Math.max(1, view.w / MAP_W);
-  const clamp = (p) => ({
-    x: Math.min(0, Math.max(view.w - MAP_W * scale, p.x)),
-    y: Math.min(0, Math.max(view.h - MAP_H * scale, p.y)),
-  });
-  const centerOn = (pt) => clamp({ x: view.w / 2 - pt.x * scale, y: view.h * 0.45 - pt.y * scale });
-
-  // 지도 영역 크기 재기
+  // 지도 만들기 (탭에 들어올 때 한 번)
   useEffect(() => {
-    const el = viewRef.current;
-    if (!el) return;
-    const measure = () => setView({ w: el.clientWidth, h: el.clientHeight });
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
+    if (!window.L) {
+      setFailed(true);
+      return;
+    }
+    const start = basePoint(base);
+    const map = L.map(boxRef.current, { zoomControl: false, attributionControl: true }).setView([start.lat, start.lng], MAP_START_ZOOM);
+    L.tileLayer(MAP_TILES.url, { attribution: MAP_TILES.attribution, maxZoom: MAP_TILES.maxZoom, subdomains: "abcd" }).addTo(map);
+    map.attributionControl.setPrefix(false);
+    layerRef.current = L.layerGroup().addTo(map);
+    map.on("zoomend", () => setZoom(map.getZoom()));
+    map.on("click", () => setSelected(null));
+    mapRef.current = map;
+    setReady(true);
+    // 탭 전환 직후 크기가 0일 수 있어 한 번 더 맞춰요
+    const t = setTimeout(() => map.invalidateSize(), 0);
+    return () => {
+      clearTimeout(t);
+      map.remove();
+      mapRef.current = null;
+    };
   }, []);
 
-  useEffect(() => {
-    setPan((p) => (p ? clamp(p) : centerOn({ x: 200, y: 400 })));
-  }, [view.w, view.h]);
-
-  const groups = useMemo(() => clusterStores(stores), [stores]);
+  const groups = useMemo(() => (mapRef.current ? clusterOnMap(mapRef.current, stores) : []), [stores, zoom, ready]);
   const selGroup = groups.find((g) => g.stores[0].id === selected) || null;
 
-  // 조건이 바뀌어 고른 가게가 사라지면 선택 해제
   useEffect(() => {
     if (selected && !selGroup) setSelected(null);
   }, [groups]);
 
-  const onPointerDown = (e) => {
-    // 포인터 캡처 뒤에는 pointerup 대상이 지도 영역으로 바뀌므로, 누른 핀을 여기서 기억해요
-    const pin = e.target.closest && e.target.closest("[data-pin]");
-    drag.current = { sx: e.clientX, sy: e.clientY, start: pan, moved: false, pin: pin && pin.getAttribute("data-pin") };
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-  const onPointerMove = (e) => {
-    const d = drag.current;
-    if (!d) return;
-    const dx = e.clientX - d.sx;
-    const dy = e.clientY - d.sy;
-    if (Math.abs(dx) + Math.abs(dy) > 6) d.moved = true;
-    if (d.moved) {
-      setSmooth(false);
-      setPan(clamp({ x: d.start.x + dx, y: d.start.y + dy }));
-    }
-  };
-  const onPointerUp = () => {
-    const d = drag.current;
-    drag.current = null;
-    if (d && !d.moved) setSelected(d.pin || null);
-  };
+  // 핀 · 기준점 그리기
+  useEffect(() => {
+    const map = mapRef.current;
+    const layer = layerRef.current;
+    if (!map || !layer) return;
+    layer.clearLayers();
 
-  const p = pan || { x: 0, y: 0 };
+    const gate = BASES.gate;
+    L.marker([gate.lat, gate.lng], {
+      interactive: false,
+      icon: L.divIcon({ className: "map-gate-icon", html: `<span class="map-gate"><img src="images/map/dot.svg" width="8" height="8" alt="" />ERICA 정문</span>`, iconSize: null }),
+    }).addTo(layer);
+
+    if (myPos) {
+      L.marker([myPos.lat, myPos.lng], {
+        interactive: false,
+        icon: L.divIcon({ className: "map-me-icon", html: `<span class="map-me" aria-label="내 위치"></span>`, iconSize: [18, 18] }),
+      }).addTo(layer);
+    }
+
+    groups.forEach((g) => {
+      const s = g.stores[0];
+      const on = selected === s.id;
+      const center = g.stores.length > 1 ? averagePoint(g.stores) : s;
+      const marker = L.marker([center.lat, center.lng], {
+        zIndexOffset: on ? 1000 : 0,
+        keyboard: true,
+        title: g.stores.length > 1 ? `${s.name} 외 ${g.stores.length - 1}곳` : s.name,
+        icon: L.divIcon({ className: "pin-icon", html: pinHtml(s, g.stores.length, on), iconSize: [0, 0] }),
+      });
+      marker.on("click", (e) => {
+        L.DomEvent.stopPropagation(e);
+        setSelected(s.id);
+      });
+      marker.addTo(layer);
+    });
+  }, [groups, selected, myPos]);
+
+  const goTo = (pt) => mapRef.current && mapRef.current.flyTo([pt.lat, pt.lng], Math.max(zoom, MAP_START_ZOOM), { duration: 0.5 });
+  const home = basePoint(base);
 
   return (
     <div className="screen map-screen">
       <TopUI {...props} />
-      <div
-        className="map-view"
-        ref={viewRef}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={() => (drag.current = null)}
-      >
-        <div
-          className={`map-canvas ${smooth ? "is-smooth" : ""}`}
-          style={{ transform: `translate(${p.x}px, ${p.y}px) scale(${scale})` }}
-        >
-          <img src="images/map/base.svg" width={MAP_W} height={MAP_H} alt="" draggable="false" />
-          <img src="images/map/district.svg" width={MAP_W} height={MAP_H} alt="" draggable="false" />
-          {MAP_LABELS.map((l) => (
-            <span
-              key={l.text}
-              className="map-label"
-              style={{
-                left: l.x,
-                top: l.y,
-                fontSize: l.size,
-                fontWeight: l.weight || 400,
-                color: l.color,
-                transform: l.rotate ? `rotate(${l.rotate}deg)` : undefined,
-              }}
-            >
-              {l.text}
-            </span>
-          ))}
-          <span className="map-gate" style={{ left: GATE.x - 12, top: GATE.y - 12 }}>
-            <img src="images/map/dot.svg" width="8" height="8" alt="" />
-            ERICA 정문
-          </span>
-          {groups.map((g) => {
-            const s = g.stores[0];
-            const on = selected === s.id;
-            return (
-              <button
-                key={s.id}
-                data-pin={s.id}
-                className={`pin ${on ? "is-on" : ""}`}
-                style={{ left: g.x, top: g.y, zIndex: on ? 3 : 1 }}
-                aria-label={g.stores.length > 1 ? `${s.name} 외 ${g.stores.length - 1}곳` : s.name}
-                aria-pressed={on}
-                onKeyDown={(e) => (e.key === "Enter" || e.key === " " ? setSelected(s.id) : null)}
-              >
-                <span className="pin-frame">
-                  <Thumb store={s} size={on ? 48 : 38} />
-                </span>
-                <img className="pin-tail" src={on ? "images/map/tail-selected.svg" : "images/map/tail.svg"} width="12" height="7" alt="" />
-                {g.stores.length > 1 && <span className="pin-count">{g.stores.length}</span>}
-                {on && <span className="pin-name">{g.stores.length > 1 ? `${s.name} 외 ${g.stores.length - 1}곳` : s.name}</span>}
-              </button>
-            );
-          })}
-        </div>
+      <div className="map-view">
+        <div className="map-box" ref={boxRef} />
+
+        {failed && <div className="map-empty">지도를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>}
 
         <div className="map-guide">
           이 근처 제휴 가게 <b>{stores.length}곳</b>
@@ -765,24 +745,14 @@ function MapScreen(props) {
         <button
           className="map-locate"
           style={{ bottom: selGroup ? 122 : 16 }}
-          aria-label="ERICA 정문으로 이동"
-          onPointerDown={(e) => e.stopPropagation()}
-          onPointerUp={(e) => e.stopPropagation()}
-          onClick={() => {
-            setSmooth(true);
-            setPan(centerOn(GATE));
-          }}
+          aria-label={`${base === "me" && myPos ? "내 위치" : BASES[base === "me" ? "gate" : base].label}로 이동`}
+          onClick={() => goTo(home)}
         >
           <Icon name="locate" size={24} />
         </button>
 
         {selGroup && (
-          <div
-            key={selected}
-            className="map-cards"
-            onPointerDown={(e) => e.stopPropagation()}
-            onPointerUp={(e) => e.stopPropagation()}
-          >
+          <div key={selected} className="map-cards">
             {selGroup.stores.map((s) => (
               <div className="map-card" key={s.id}>
                 <StoreRow store={s} base={base} q={searchQuery} {...rowProps(s)} />
@@ -791,12 +761,17 @@ function MapScreen(props) {
           </div>
         )}
 
-        {stores.length === 0 && (
-          <div className="map-empty">조건에 맞는 제휴 가게가 없어요</div>
-        )}
+        {stores.length === 0 && <div className="map-empty">조건에 맞는 제휴 가게가 없어요</div>}
       </div>
     </div>
   );
+}
+
+function averagePoint(list) {
+  return {
+    lat: list.reduce((a, s) => a + s.lat, 0) / list.length,
+    lng: list.reduce((a, s) => a + s.lng, 0) / list.length,
+  };
 }
 
 function MyScreen({ cond, favCount, recentCount, sort, base, settings, setSettings, onOpenCondition, onOpenSortSetting, onOpenBase, goFavorites, showToast }) {
@@ -892,7 +867,7 @@ function DetailScreen({ store, cond, isFav, onToggleFav, onClose, showToast }) {
     }
   };
 
-  const mapUrl = `https://map.kakao.com/link/search/${encodeURIComponent("안산 " + store.name)}`;
+  const mapUrl = `https://map.kakao.com/link/to/${encodeURIComponent(store.name)},${store.lat},${store.lng}`;
 
   return (
     <div className="detail" role="dialog" aria-label={`${store.name} 상세`}>
@@ -1019,6 +994,12 @@ function DetailScreen({ store, cond, isFav, onToggleFav, onClose, showToast }) {
                 ) : (
                   <span style={{ color: "var(--text-3)" }}>목 데이터 · 출처 없음</span>
                 )}
+              </dd>
+            </div>
+            <div>
+              <dt>위치</dt>
+              <dd>
+                {store.coordVerified ? "확인된 위치" : <span style={{ color: "var(--text-3)" }}>대략적인 위치 (확인 전)</span>}
               </dd>
             </div>
             <div>
@@ -1457,6 +1438,20 @@ function App() {
   const [sortAnchor, setSortAnchor] = useState({ top: 0, right: 16 });
   const [toast, setToast] = useState(null);
   const [splash, setSplash] = useState(true);
+  const [myPos, setMyPos] = useState(null);
+
+  const requestMyPos = (onOk, onFail) => {
+    if (!navigator.geolocation) return onFail("이 브라우저는 위치를 지원하지 않아요");
+    navigator.geolocation.getCurrentPosition(
+      (p) => {
+        MY_POS = { lat: p.coords.latitude, lng: p.coords.longitude };
+        setMyPos(MY_POS);
+        onOk();
+      },
+      (err) => onFail(err.code === 1 ? "위치 권한이 없어 정문 기준으로 보여 드려요" : "위치를 찾지 못해 정문 기준으로 보여 드려요"),
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+    );
+  };
   const appRef = useRef(null);
   const sortBtnRef = useRef(null);
   const toastTimer = useRef(null);
@@ -1509,10 +1504,10 @@ function App() {
       .map((s, i) => ({ s, i, r: searchRank(s, searchQuery) }))
       .sort((a, b) => b.r - a.r || a.i - b.i)
       .map((x) => x.s);
-  }, [visible, sort, base, searchQuery]);
+  }, [visible, sort, base, searchQuery, myPos]);
   const favStores = useMemo(
     () => sortStores(STORES.filter((s) => favSet.has(s.id) && isEligible(s, cond)), sort, base),
-    [favSet, cond, sort, base]
+    [favSet, cond, sort, base, myPos]
   );
 
   const openSort = () => {
@@ -1534,6 +1529,10 @@ function App() {
   });
 
   const detailStore = STORES.find((s) => s.id === detailId);
+
+  useEffect(() => {
+    if (base === "me") requestMyPos(() => {}, () => setBase("gate"));
+  }, []);
 
   // ESC로 맨 위 레이어 닫기
   useEffect(() => {
@@ -1563,6 +1562,7 @@ function App() {
           {...shared}
           stores={listStores}
           searchQuery={searchQuery}
+          myPos={myPos}
           query={query}
           setQuery={setQuery}
           category={category}
@@ -1578,6 +1578,7 @@ function App() {
           {...shared}
           stores={listStores}
           searchQuery={searchQuery}
+          myPos={myPos}
           query={query}
           setQuery={setQuery}
           category={category}
@@ -1642,10 +1643,22 @@ function App() {
           base={base}
           onClose={() => setOverlay(null)}
           onApply={(b) => {
-            setBase(b);
-            setSort("distance");
             setOverlay(null);
-            if (b === "me") showToast("프로토타입이라 예시 위치로 거리를 계산해요");
+            setSort("distance");
+            if (b === "me") {
+              requestMyPos(
+                () => {
+                  setBase("me");
+                  showToast("지금 내 위치에서 가까운 순으로 보여 드려요");
+                },
+                (msg) => {
+                  setBase("gate");
+                  showToast(msg);
+                }
+              );
+            } else {
+              setBase(b);
+            }
           }}
         />
       )}
