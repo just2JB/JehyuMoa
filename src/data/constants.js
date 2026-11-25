@@ -16,7 +16,6 @@ const COLLEGES = [
 
 const CATEGORIES = ["전체", "식당", "술집", "카페", "기타"];
 
-const STUDENT_COUNCIL = "총학생회";
 
 const INITIAL_FAVORITES = ["isaac", "ilmi", "rock", "manchwi"];
 

@@ -33,6 +33,16 @@ function App() {
   const [toast, setToast] = useState(null);
   const [splash, setSplash] = useState(true);
   const [myPos, setMyPos] = useState(null);
+  // 제휴 데이터 (data/stores.json) · null이면 불러오는 중
+  const [stores, setStores] = useState(null);
+  const [loadError, setLoadError] = useState(null);
+  const load = () => {
+    setLoadError(null);
+    loadStores()
+      .then((d) => setStores(d.stores))
+      .catch((e) => setLoadError(e.message || "데이터를 불러오지 못했어요"));
+  };
+  useEffect(load, []);
 
   const requestMyPos = (onOk, onFail) => {
     if (!navigator.geolocation) return onFail("이 브라우저는 위치를 지원하지 않아요");
@@ -86,10 +96,10 @@ function App() {
   const searchQuery = useMemo(() => makeQuery(query), [query]);
 
   const visible = useMemo(() => {
-    return STORES.filter((s) => isEligible(s, cond))
+    return (stores || []).filter((s) => isEligible(s, cond))
       .filter((s) => category === "전체" || s.category === category)
       .filter((s) => searchRank(s, searchQuery) > 0);
-  }, [cond, category, searchQuery]);
+  }, [stores, cond, category, searchQuery]);
 
   // 고른 정렬은 유지하되, 검색 중에는 이름이 맞는 가게를 혜택만 맞는 가게보다 먼저
   const listStores = useMemo(() => {
@@ -101,8 +111,8 @@ function App() {
       .map((x) => x.s);
   }, [visible, sort, base, searchQuery, myPos]);
   const favStores = useMemo(
-    () => sortStores(STORES.filter((s) => favSet.has(s.id) && isEligible(s, cond)), sort, base),
-    [favSet, cond, sort, base, myPos]
+    () => sortStores((stores || []).filter((s) => favSet.has(s.id) && isEligible(s, cond)), sort, base),
+    [stores, favSet, cond, sort, base, myPos]
   );
 
   const openSort = () => {
@@ -123,12 +133,13 @@ function App() {
     onOpen: openDetail,
   });
 
-  const detailStore = detailId ? STORES.find((s) => s.id === detailId) : null;
+  const detailStore = detailId && stores ? stores.find((s) => s.id === detailId) : null;
 
   // 주소가 비었거나 모르는 화면·가게면 목록으로
   useEffect(() => {
-    if (!window.location.hash || route.unknown || (detailId && !detailStore)) navigate("/list", { replace: true });
-  }, [route]);
+    // 가게 데이터를 다 불러온 뒤에만 '없는 가게'로 판단해요
+    if (!window.location.hash || route.unknown || (detailId && stores && !detailStore)) navigate("/list", { replace: true });
+  }, [route, stores]);
 
   useEffect(() => {
     if (base === "me") requestMyPos(() => {}, () => setBase("gate"));
@@ -154,6 +165,28 @@ function App() {
     onOpenSort: openSort,
     onOpenCondition: () => setOverlay("condition"),
   };
+
+  // 데이터를 불러오는 중이거나 실패했을 때
+  if (!stores) {
+    return (
+      <div className="app" ref={appRef}>
+        <div className="load-state">
+          {loadError ? (
+            <>
+              <h2>{loadError}</h2>
+              <p>인터넷 연결이나 데이터 파일 위치(config.js의 DATA_URL)를 확인해 주세요.</p>
+              <button className="btn-primary" onClick={load}>
+                다시 시도
+              </button>
+            </>
+          ) : (
+            <p>제휴 정보를 불러오는 중이에요</p>
+          )}
+        </div>
+        {splash && <Splash onDone={() => setSplash(false)} />}
+      </div>
+    );
+  }
 
   return (
     <div className="app" ref={appRef}>
