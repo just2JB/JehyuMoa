@@ -130,7 +130,7 @@ function DetailScreen({ store, cond, isFav, onToggleFav, onClose, showToast }) {
             </div>
             <div>
               <dt>기간</dt>
-              <dd>{store.period || "2026.09.01 ~ 12.31 (예시)"}</dd>
+              <dd>{formatPeriod(store.period)}</dd>
             </div>
             <div>
               <dt>제공</dt>
@@ -157,7 +157,7 @@ function DetailScreen({ store, cond, isFav, onToggleFav, onClose, showToast }) {
             </div>
             <div>
               <dt>확인</dt>
-              <dd>{store.checkedAt || "-"}</dd>
+              <dd>{formatDate(store.checkedAt)}</dd>
             </div>
           </dl>
         </section>

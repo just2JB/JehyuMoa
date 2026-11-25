@@ -71,10 +71,11 @@ JehyuMoa/
 ├── config.example.js   # 설정 템플릿 (복사해서 config.js로 · config.js는 깃 제외)
 ├── src/
 │   ├── core.js         # React 훅, 로컬 설정 (가장 먼저)
-│   ├── data/           # constants.js(단과대·정렬 등) · stores.js(제휴 가게 데이터)
-│   ├── lib/            # storage · geo(거리) · condition(조건) · hours(영업) · search(한글 검색) · sort · router
+│   ├── data/           # constants.js (단과대 · 업종 · 정렬 · 거리 기준)
+│   ├── lib/            # storage · geo(거리) · condition(조건) · hours(영업) · search(한글 검색) · sort · router · data(데이터 불러오기·검사)
 │   ├── components/     # common(아이콘·매장 줄·탭 등) · SortMenu · ConditionModal · Splash
 │   └── screens/        # ListScreen · MapScreen · FavoritesScreen · MyScreen · DetailScreen
+├── data/stores.json    # 제휴 가게 · 혜택 데이터 (입력 방법: docs/data-guide.md)
 ├── images/             # 이미지 리소스
 ├── docs/               # 설계 근거 문서
 └── README.md
@@ -137,7 +138,7 @@ cp config.example.js config.js   # 그다음 config.js에 값 입력
 - 서비스 기획 및 화면 흐름을 정리하고 Figma 프로토타입을 제작했습니다.
 - 개발 방식은 React 18·ReactDOM 18·Babel Standalone의 CDN 로딩으로 정했습니다.
 - Figma 11주차 완성본을 기준으로 목 데이터 프로토타입을 구현했습니다. (목록·정렬·거리 기준·조건 설정·즐겨찾기·매장 상세·마이 페이지)
-- 목 데이터는 실제 제휴 정보가 아닌 화면 확인용 예시입니다.
+- 목 데이터는 실제 제휴 정보가 아닌 화면 확인용 예시입니다. 가게 데이터는 `data/stores.json` 한 파일에 있고, 실제 정보 입력 방법은 [docs/data-guide.md](docs/data-guide.md)에 정리했습니다.
 
 ## 관련 자료
 
