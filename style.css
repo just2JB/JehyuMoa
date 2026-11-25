@@ -31,8 +31,7 @@
   --cat-etc: #5b6b80;
 
   --dim: rgba(11, 15, 26, 0.45);
-  --app-w: 375px;
-  --app-h: 812px;
+  --app-w: 430px;
 }
 
 * {
@@ -103,12 +102,12 @@ img {
   flex-direction: column;
 }
 
+/* PC에서도 둥근 휴대폰 틀 없이 세로로 꽉 차게, 가로만 모바일 폭으로 */
 @media (min-width: 520px) {
   .app {
     width: var(--app-w);
-    height: min(var(--app-h), 100vh - 32px);
-    border-radius: 28px;
-    box-shadow: 0 12px 40px rgba(20, 26, 51, 0.1);
+    height: 100%;
+    box-shadow: 0 0 0 1px var(--line), 0 12px 40px rgba(20, 26, 51, 0.08);
   }
 }
 
@@ -462,24 +461,6 @@ img {
 .tab.is-on {
   color: var(--primary);
   font-weight: 700;
-}
-
-@media (min-width: 520px) {
-  .tabbar {
-    padding-bottom: 34px;
-  }
-
-  .tabbar::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 8px;
-    width: 134px;
-    height: 5px;
-    margin-left: -67px;
-    border-radius: 3px;
-    background: var(--text-1);
-  }
 }
 
 /* ---------- 딤 · 모달 · 팝오버 ---------- */
