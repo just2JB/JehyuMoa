@@ -1346,13 +1346,13 @@ img {
 }
 
 /* =========================================================
-   스플래시 · 티켓 컷 (약 1.2초)
-   로고 사선(/)을 따라 빛이 한 번 지나가며 티켓이 '잘리고'(=할인),
-   이름이 아래에서 드러난 뒤 사라져요. 장식은 빼고 한 동작에 집중.
-   0.00s 로고가 흐림→선명
-   0.30s 사선 빛줄기가 지나가며 로고가 사선 따라 살짝 벌어짐
-   0.55s 앱 이름 · 한 줄 소개가 마스크로 드러남
-   1.20s 사라짐 (누르면 바로)
+   스플래시 · 로고 조립 (약 1.35초)
+   0.00s 파랑 티켓 몸통이 가운데에서 좌우로 펼쳐짐
+   0.28s 흰 면이 오른쪽에서 밀려 들어와 맞물림
+   0.46s H는 왼쪽 위에서, Y는 오른쪽 아래에서 꽂힘
+   0.72s 로고 전체가 '딸깍' 고정되며 빛이 한 번 스침
+   0.80s 앱 이름 · 한 줄 소개가 아래에서 드러남
+   1.35s 사라짐 (누르면 바로)
    ========================================================= */
 .splash {
   position: absolute;
@@ -1362,7 +1362,7 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22px;
+  gap: 24px;
   background: #0a0d14;
   color: #fff;
   cursor: pointer;
@@ -1376,50 +1376,48 @@ img {
 }
 
 .splash::before {
-  /* 은은한 파랑 빛 */
   content: "";
   position: absolute;
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 65%);
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.32), transparent 65%);
   animation: splash-glow 1.2s ease-out both;
 }
 
 .splash-logo {
   position: relative;
-  width: 88px;
-  height: 88px;
-  animation: splash-in 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  overflow: visible;
 }
 
-.splash-logo img {
-  position: absolute;
-  inset: 0;
+.splash-logo .part,
+.splash-logo .lock {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-.splash-logo .half-a {
-  clip-path: polygon(0 0, 58% 0, 42% 100%, 0 100%);
-  animation: splash-split-a 0.5s 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+.splash-logo .ticket {
+  animation: splash-unfold 0.34s cubic-bezier(0.7, 0, 0.2, 1) both;
 }
 
-.splash-logo .half-b {
-  clip-path: polygon(58% 0, 100% 0, 100% 100%, 42% 100%);
-  animation: splash-split-b 0.5s 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+.splash-logo .face {
+  animation: splash-slide 0.3s 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-.splash-cut {
-  /* 사선 빛줄기 */
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 2px;
-  height: 140vh;
-  margin: -70vh 0 0 -1px;
-  background: linear-gradient(transparent, rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.9) 55%, transparent);
-  transform: rotate(20deg) scaleY(0);
-  box-shadow: 0 0 18px rgba(147, 180, 255, 0.9);
-  animation: splash-cut 0.42s 0.26s cubic-bezier(0.6, 0, 0.2, 1) both;
+.splash-logo .h {
+  animation: splash-drop-h 0.28s 0.46s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+
+.splash-logo .y {
+  animation: splash-drop-y 0.28s 0.52s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+
+.splash-logo .lock {
+  animation: splash-lock 0.22s 0.72s ease-out both;
+}
+
+.splash-logo .sheen {
+  animation: splash-sheen 0.5s 0.74s ease-in-out both;
 }
 
 .splash-text {
@@ -1438,7 +1436,11 @@ img {
 .splash-text h1 span,
 .splash-text p span {
   display: block;
-  animation: splash-reveal 0.4s 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: splash-reveal 0.36s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.splash-text p span {
+  animation-delay: 0.88s;
 }
 
 .splash-text h1 {
@@ -1454,58 +1456,76 @@ img {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.splash-text p span {
-  animation-delay: 0.65s;
-}
-
 .splash-text p b {
   color: #8fb0ff;
   font-weight: 700;
 }
 
-@keyframes splash-in {
+@keyframes splash-unfold {
   from {
+    transform: scaleX(0.04) scaleY(0.6);
     opacity: 0;
-    transform: scale(0.92);
-    filter: blur(8px);
+  }
+  40% {
+    opacity: 1;
   }
   to {
-    opacity: 1;
     transform: none;
-    filter: none;
+    opacity: 1;
   }
 }
 
-@keyframes splash-split-a {
-  50% {
-    transform: translate(-4px, 3px);
+@keyframes splash-slide {
+  from {
+    transform: translateX(70%);
+    opacity: 0;
   }
   to {
-    transform: translate(-1.5px, 1px);
+    transform: none;
+    opacity: 1;
   }
 }
 
-@keyframes splash-split-b {
-  50% {
-    transform: translate(4px, -3px);
+@keyframes splash-drop-h {
+  from {
+    transform: translate(-40%, -60%) scale(0.6);
+    opacity: 0;
   }
   to {
-    transform: translate(1.5px, -1px);
+    transform: none;
+    opacity: 1;
   }
 }
 
-@keyframes splash-cut {
+@keyframes splash-drop-y {
+  from {
+    transform: translate(40%, 60%) scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes splash-lock {
   0% {
-    transform: rotate(20deg) scaleY(0);
-    opacity: 1;
+    transform: scale(1);
   }
-  60% {
-    transform: rotate(20deg) scaleY(1);
-    opacity: 1;
+  45% {
+    transform: scale(1.07);
   }
   100% {
-    transform: rotate(20deg) scaleY(1);
-    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes splash-sheen {
+  from {
+    transform: translateX(0) skewX(-20deg);
+  }
+  to {
+    transform: translateX(360px) skewX(-20deg);
   }
 }
 
@@ -1529,7 +1549,7 @@ img {
   }
 }
 
-/* 움직임 줄이기를 켠 사용자는 정지 화면만 잠깐 */
+/* 움직임 줄이기: 완성된 로고만 잠깐 */
 .splash.is-reduced,
 .splash.is-reduced *,
 .splash.is-reduced::before {
@@ -1537,7 +1557,7 @@ img {
   transition-duration: 0.01s !important;
 }
 
-.splash.is-reduced .splash-cut {
+.splash.is-reduced .sheen {
   display: none;
 }
 
