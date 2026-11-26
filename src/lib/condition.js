@@ -27,8 +27,3 @@ function cleanMix(mix, myCollege) {
   return out;
 }
 
-function startMix(cond) {
-  const others = Object.keys(cond.mix).filter((c) => c !== cond.myCollege);
-  if (others.length) return cleanMix(cond.mix, cond.myCollege);
-  return { [cond.myCollege]: cond.people };
-}
