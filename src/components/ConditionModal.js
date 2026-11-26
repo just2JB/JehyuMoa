@@ -1,47 +1,51 @@
 /* 조건 설정 모달
-   누구랑 가요? · 단과대별 인원 · 내 소속 고르기 */
+   누구랑 가요? (혼자 / 같이) · 같은 단과대면 인원, 섞였으면 단과대별 인원 · 내 소속 고르기 */
 
 function ConditionModal({ cond, onApply, onClose }) {
   const [draft, setDraft] = useState(cond);
   const [page, setPage] = useState("main"); // main | college | add
   const [pickCollege, setPickCollege] = useState(cond.myCollege);
 
-  const peopleOptions = [1, 2, 3, 4, 5];
+  const MAX_PEOPLE = 30;
+  const together = draft.people > 1 || draft.together === true;
   const mixTotal = Object.values(draft.mix).reduce((a, b) => a + b, 0);
-  const needsMix = draft.people > 1 && !draft.sameCollege;
-  const balanced = !needsMix || mixTotal === draft.people;
+  const needsMix = together && !draft.sameCollege;
+  const otherColleges = Object.keys(draft.mix).filter((c) => c !== draft.myCollege && draft.mix[c] > 0);
+  // 섞였다고 했으면 다른 단과대 사람이 한 명은 있어야 해요
+  const ready = !needsMix || otherColleges.length > 0;
 
-  const setPeople = (n) => {
-    if (draft.sameCollege || n === 1) {
-      setDraft({ ...draft, people: n, mix: { [draft.myCollege]: draft.sameCollege ? n : Math.min(n, draft.mix[draft.myCollege] || 1) } });
+  // 혼자 / 같이
+  const setTogether = (on) => {
+    if (!on) {
+      setDraft({ ...draft, together: false, people: 1, mix: { [draft.myCollege]: 1 } });
       return;
     }
-    const mix = { ...draft.mix };
-    {
-      // 인원을 줄이면 다른 단과대 인원부터 줄여요
-      let over = Object.values(mix).reduce((a, b) => a + b, 0) - n;
-      Object.keys(mix)
-        .filter((c) => c !== draft.myCollege)
-        .reverse()
-        .forEach((c) => {
-          while (over > 0 && mix[c] > 0) {
-            mix[c] -= 1;
-            over -= 1;
-          }
-        });
-      if (over > 0) mix[draft.myCollege] = Math.max(1, mix[draft.myCollege] - over);
-    }
-    setDraft({ ...draft, people: n, mix: cleanMix(mix, draft.myCollege) });
+    const n = Math.max(2, draft.lastPeople || 2);
+    setDraft({ ...draft, together: true, sameCollege: true, people: n, mix: { [draft.myCollege]: n } });
+  };
+
+  // 같이 + 같은 단과대: 인원 (나 포함)
+  const setSameCount = (n) => {
+    const people = Math.min(MAX_PEOPLE, Math.max(2, n));
+    setDraft({ ...draft, people, lastPeople: people, mix: { [draft.myCollege]: people } });
   };
 
   const setSame = (same) => {
-    const mix = same ? { [draft.myCollege]: draft.people } : draft.mix;
-    setDraft({ ...draft, sameCollege: same, mix: same ? mix : startMix(draft) });
+    if (same) {
+      const people = Math.max(2, mixTotal);
+      setDraft({ ...draft, together: true, sameCollege: true, people, mix: { [draft.myCollege]: people } });
+    } else {
+      // 나는 내 단과대 1명으로 두고, 같이 가는 사람은 단과대를 골라 나눠요 (아직 1명이어도 '같이' 상태 유지)
+      const mix = { [draft.myCollege]: 1 };
+      setDraft({ ...draft, together: true, sameCollege: false, mix, people: 1 });
+    }
   };
 
+  // 같이 + 섞임: 단과대별 인원, 합계가 곧 전체 인원
   const step = (college, delta) => {
-    const mix = { ...draft.mix, [college]: (draft.mix[college] || 0) + delta };
-    setDraft({ ...draft, mix: cleanMix(mix, draft.myCollege) });
+    const mix = cleanMix({ ...draft.mix, [college]: (draft.mix[college] || 0) + delta }, draft.myCollege);
+    const people = Object.values(mix).reduce((a, b) => a + b, 0);
+    setDraft({ ...draft, mix, people, lastPeople: Math.max(2, people) });
   };
 
   if (page === "college" || page === "add") {
@@ -94,7 +98,7 @@ function ConditionModal({ cond, onApply, onClose }) {
                   const mine = mix[draft.myCollege] || 1;
                   delete mix[draft.myCollege];
                   mix[pickCollege] = (mix[pickCollege] || 0) + mine;
-                  setDraft({ ...draft, myCollege: pickCollege, mix: draft.sameCollege ? { [pickCollege]: draft.people } : mix });
+                  setDraft({ ...draft, myCollege: pickCollege, mix: draft.sameCollege || draft.people === 1 ? { [pickCollege]: draft.people } : mix });
                 }
                 setPage("main");
               }}
@@ -120,24 +124,16 @@ function ConditionModal({ cond, onApply, onClose }) {
           </div>
           <p className="modal-desc">같이 가는 인원과 소속에 맞는 혜택만 보여 드려요.</p>
 
-          <div className="field">
-            <div className="field-label">나까지 몇 명</div>
-            <div className="chips" role="radiogroup">
-              {peopleOptions.map((n) => (
-                <button
-                  key={n}
-                  role="radio"
-                  aria-checked={draft.people === n}
-                  className={`chip ${draft.people === n ? "is-on" : ""}`}
-                  onClick={() => setPeople(n)}
-                >
-                  {n === 1 ? "혼자" : n === 5 ? "5명+" : `${n}명`}
-                </button>
-              ))}
-            </div>
+          <div className="segment" role="radiogroup" aria-label="혼자 또는 같이">
+            <button role="radio" aria-checked={!together} className={!together ? "is-on" : ""} onClick={() => setTogether(false)}>
+              혼자
+            </button>
+            <button role="radio" aria-checked={together} className={together ? "is-on" : ""} onClick={() => setTogether(true)}>
+              같이
+            </button>
           </div>
 
-          {draft.people > 1 && (
+          {together && (
             <div className="field">
               <div className="field-label">모두 같은 단과대예요?</div>
               <div className="segment" role="radiogroup">
@@ -151,14 +147,35 @@ function ConditionModal({ cond, onApply, onClose }) {
             </div>
           )}
 
+          {together && draft.sameCollege && (
+            <div className="field">
+              <div className="field-label">몇 명이에요?</div>
+              <div className="college-list">
+                <div className="college-row">
+                  <span>나 포함</span>
+                  <span className="spacer" />
+                  <div className="stepper">
+                    <button onClick={() => setSameCount(draft.people - 1)} disabled={draft.people <= 2} aria-label="한 명 빼기">
+                      <Icon name="minus" size={16} />
+                    </button>
+                    <output aria-live="polite" key={draft.people} className="bump">
+                      {draft.people}
+                    </output>
+                    <button className="plus" onClick={() => setSameCount(draft.people + 1)} disabled={draft.people >= MAX_PEOPLE} aria-label="한 명 더하기">
+                      <Icon name="plus" size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {needsMix ? (
             <>
               <div className="field">
                 <div className="field-label">
                   단과대별 인원
-                  <span className="count-blue">
-                    {mixTotal} / {draft.people}명
-                  </span>
+                  <span className="count-blue">총 {mixTotal}명</span>
                 </div>
                 <div className="college-list">
                   {Object.keys(draft.mix).map((c) => {
@@ -173,8 +190,10 @@ function ConditionModal({ cond, onApply, onClose }) {
                           <button onClick={() => step(c, -1)} disabled={isMe && n <= 1} aria-label={`${c} 한 명 빼기`}>
                             <Icon name="minus" size={16} />
                           </button>
-                          <output aria-live="polite" key={n} className="bump">{n}</output>
-                          <button className="plus" onClick={() => step(c, 1)} disabled={mixTotal >= draft.people} aria-label={`${c} 한 명 더하기`}>
+                          <output aria-live="polite" key={n} className="bump">
+                            {n}
+                          </output>
+                          <button className="plus" onClick={() => step(c, 1)} disabled={mixTotal >= MAX_PEOPLE} aria-label={`${c} 한 명 더하기`}>
                             <Icon name="plus" size={16} />
                           </button>
                         </div>
@@ -187,17 +206,16 @@ function ConditionModal({ cond, onApply, onClose }) {
                       setPickCollege(null);
                       setPage("add");
                     }}
-                    disabled={mixTotal >= draft.people}
-                    style={mixTotal >= draft.people ? { opacity: 0.4 } : null}
+                    disabled={mixTotal >= MAX_PEOPLE}
                   >
                     <Icon name="plus" size={16} />
                     단과대 추가
                   </button>
                 </div>
               </div>
-              <p className={`status-line ${balanced ? "ok" : ""}`}>
-                {balanced ? <Icon name="check-green" size={16} /> : <Icon name="info" size={16} />}
-                {balanced ? `${draft.people}명 모두 나눴어요` : `${draft.people - mixTotal}명을 더 나눠 주세요`}
+              <p className={`status-line ${ready ? "ok" : ""}`}>
+                {ready ? <Icon name="check-green" size={16} /> : <Icon name="info" size={16} />}
+                {ready ? `${otherColleges.length + 1}개 단과대 · ${mixTotal}명이 같이 가요` : "같이 가는 다른 단과대를 추가해 주세요"}
               </p>
             </>
           ) : (
@@ -217,7 +235,7 @@ function ConditionModal({ cond, onApply, onClose }) {
             </div>
           )}
 
-          <button className="btn-primary" disabled={!balanced} onClick={() => onApply(draft)}>
+          <button className="btn-primary" disabled={!ready} onClick={() => onApply({ ...draft, together: draft.people > 1 })}>
             이 조건으로 보기
           </button>
         </div>
